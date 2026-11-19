@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Medium sync every 6 hours (calls /api/medium/sync with CRON_SECRET)
+[functions."medium-cron"]
+  schedule = "0 */6 * * *"

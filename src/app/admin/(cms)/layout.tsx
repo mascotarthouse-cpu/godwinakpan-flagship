@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { db } from "@/db";
-import { logout } from "../actions";
+import { logout, runSetup } from "../actions";
+import { databaseReady } from "@/db/setup";
 import AdminNav from "./AdminNav";
 
 export const metadata = { title: "Admin", robots: { index: false } };
 export const dynamic = "force-dynamic";
 
-export default function CmsLayout({ children }: { children: React.ReactNode }) {
+export default async function CmsLayout({ children }: { children: React.ReactNode }) {
+  const ready = await databaseReady();
   return (
     <div className="min-h-screen bg-paper text-eagle lg:grid lg:grid-cols-[240px_1fr]">
       <aside className="border-b border-eagle/10 bg-sky p-4 lg:sticky lg:top-0 lg:h-screen lg:border-b-0 lg:border-r lg:p-6">
@@ -26,7 +28,13 @@ export default function CmsLayout({ children }: { children: React.ReactNode }) {
             <b>No database connected.</b> The site is running on its built-in content. In Netlify, enable Netlify DB (or add DATABASE_URL), then run the setup in the README to start editing here.
           </div>
         )}
-        {children}
+        {db && !ready ? (
+          <div className="max-w-xl rounded-2xl border border-eagle/10 bg-sky p-8">
+            <p className="display text-3xl">One-time setup</p>
+            <p className="mt-3 text-ash">Your database is connected but empty. This creates the tables and adds the starter content (three insights and five work entries).</p>
+            <form action={runSetup} className="mt-6"><button className="btn-dark">Set up database</button></form>
+          </div>
+        ) : children}
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import { COOKIE, checkCredentials, sign, verify } from "@/lib/auth";
 import { syncMedium } from "@/lib/medium-sync";
 import { saveUpload } from "@/lib/storage";
 import { getSettings } from "@/lib/content";
+import { setupDatabase } from "@/db/setup";
 
 async function guard() {
   const ok = await verify((await cookies()).get(COOKIE)?.value);
@@ -173,4 +174,12 @@ export async function setInquiryStatus(f: FormData) {
   const d = await guard();
   await d.update(schema.inquiries).set({ status: str(f, "status") }).where(eq(schema.inquiries.id, Number(f.get("id"))));
   revalidatePath("/admin/inquiries");
+}
+
+export async function runSetup() {
+  const ok = await verify((await cookies()).get(COOKIE)?.value);
+  if (!ok) redirect("/admin/login");
+  await setupDatabase();
+  refresh();
+  redirect("/admin?ready=1");
 }

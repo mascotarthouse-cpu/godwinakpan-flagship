@@ -10,12 +10,7 @@ Netlify → **Add new site → Import an existing project → GitHub** → pick 
 
 ## 3. Database (5 min)
 Netlify → the new site → **Extensions → Netlify DB** (Neon Postgres) → enable. It adds `NETLIFY_DATABASE_URL` for you.
-Then create the tables and copy the starter content, once, from your computer:
-```
-DATABASE_URL="<the Netlify DB connection string>" npx drizzle-kit push
-DATABASE_URL="<same>" npm run db:seed
-```
-(Or ask Claude to run these for you on your computer.)
+Nothing else to run: the first time you sign in to `/admin`, press **Set up database**. It creates the tables and adds the starter content.
 
 ## 4. Environment variables
 Site configuration → Environment variables:

@@ -7,7 +7,7 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
       <div className="w-full max-w-sm">
         <p className="display mb-1 text-red">:::</p>
         <h1 className="display text-4xl">Studio</h1>
-        <p className="mt-2 text-sky/50">Sign in to manage godwinakpan.ng</p>
+        <p className="mt-2 text-sky/50">Sign in to manage godwinakpan.si</p>
         <LoginForm next={next || "/admin"} />
       </div>
     </div>

@@ -20,16 +20,22 @@ Site configuration → Environment variables:
 | `ADMIN_PASSWORD` | a strong password |
 | `AUTH_SECRET` | any long random string (40+ characters) |
 | `CRON_SECRET` | another random string (for the Medium auto-sync) |
-| `SITE_URL` | `https://www.godwinakpan.ng` |
-| `PRIMARY_HOST` | `www.godwinakpan.ng` (the domain everyone ends up on) |
+| `SITE_URL` | `https://www.godwinakpan.si` |
+| `PRIMARY_HOST` | `www.godwinakpan.si` (the domain everyone ends up on) |
 | `RESEND_API_KEY` | optional: email alerts for new inquiries (resend.com, free tier) |
 | `INQUIRY_TO` | inbox for those alerts |
 Redeploy after adding them.
 
-## 5. Domains (both, one forwards)
-Netlify → Domain management → add `www.godwinakpan.ng` as the primary domain, then add `godwinakpan.ng`, `godwinakpan.com` and `www.godwinakpan.com` as domain aliases.
-Point each domain's DNS at Netlify (nameservers, or the A/CNAME records Netlify shows). The site permanently redirects every alias to `PRIMARY_HOST`, so `.com` visitors land on `.ng`.
-Note: `godwinakpan.com` is currently attached to the old Netlify site. Remove it there first, or keep the old site on its `.netlify.app` address.
+## 5. Domain: www.godwinakpan.si
+1. Netlify → the new site → **Domain management → Add a domain** → `www.godwinakpan.si`. Netlify also adds `godwinakpan.si` and forwards it to www.
+2. At your .si registrar, add these DNS records (or switch the nameservers to the four Netlify shows, which is easiest):
+   | Type | Host | Value |
+   |---|---|---|
+   | CNAME | `www` | `<your-site>.netlify.app` |
+   | A | `@` (godwinakpan.si) | `75.2.60.5` |
+   Delete any other A, AAAA or CNAME records on `@` and `www` first.
+3. Wait for Netlify to show the domain as verified (minutes to a few hours), then press **Verify DNS** and **Provision certificate** under HTTPS if it hasn't started on its own.
+4. Optional: add `godwinakpan.ng` / `godwinakpan.com` as domain aliases later. The site forwards them to `PRIMARY_HOST` automatically.
 
 ## 6. First sign-in
 Go to `/admin`, sign in, press **Medium sync → Sync now**, then swap photos under **Media** as Drive assets arrive.

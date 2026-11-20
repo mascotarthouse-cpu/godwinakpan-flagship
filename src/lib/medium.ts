@@ -17,7 +17,7 @@ export async function fetchMedium(handle: string): Promise<Post[]> {
   const clean = handle.replace(/^@/, "").trim();
   if (!clean) return [];
   const res = await fetch(`https://medium.com/feed/@${clean}`, {
-    headers: { "User-Agent": "godwinakpan.ng feed reader" },
+    headers: { "User-Agent": "godwinakpan.si feed reader" },
     next: { revalidate: 1800 },
   });
   if (!res.ok) throw new Error(`Medium returned ${res.status}`);

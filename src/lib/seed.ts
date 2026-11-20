@@ -32,7 +32,7 @@ export const CATEGORIES = ["Disruptive Strategy", "Brand Architecture", "Leaders
 export const site = {
   name: "Godwin Akpan",
   title: "Barr. Godwin Akpan",
-  url: process.env.SITE_URL || "https://www.godwinakpan.ng",
+  url: process.env.SITE_URL || "https://www.godwinakpan.si",
   mantra: "Do. Disrupt. Dominate. Win!™",
   mantraWords: ["Do.", "Disrupt.", "Dominate.", "Win!™"],
   philosophy: "Purpose over pleasure.",

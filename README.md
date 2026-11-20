@@ -1,4 +1,4 @@
-# godwinakpan.ng — flagship site
+# godwinakpan.si — flagship site
 
 Next.js 15 (App Router) · TypeScript · Tailwind · Lenis + GSAP + Framer Motion · Postgres (Drizzle) · custom CMS at `/admin` · Medium sync · Netlify.
 

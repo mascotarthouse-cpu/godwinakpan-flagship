@@ -4,7 +4,7 @@ import { drizzle as drizzlePg } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schema";
 
-const url = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL || "";
+const url = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL || process.env.NETLIFY_DB_URL || "";
 
 function connect() {
   if (!url) return null;

@@ -32,3 +32,18 @@ export async function setupDatabase() {
   const existing = await db.select({ id: schema.projects.id }).from(schema.projects).limit(1);
   if (!existing.length) await db.insert(schema.projects).values(projects.map((p, i) => ({ ...p, order: i })));
 }
+
+let ensuring: Promise<void> | null = null;
+/** Creates tables + starter content the first time the site talks to an empty database. */
+export function ensureDatabase(): Promise<void> {
+  if (!db) return Promise.resolve();
+  if (!ensuring) {
+    ensuring = (async () => {
+      if (!(await databaseReady())) await setupDatabase();
+    })().catch((e) => {
+      ensuring = null;
+      console.error("database setup failed", e);
+    });
+  }
+  return ensuring;
+}

@@ -1,6 +1,7 @@
 import "server-only";
 import { and, asc, desc, eq, lte } from "drizzle-orm";
 import { db, schema } from "@/db";
+import { ensureDatabase } from "@/db/setup";
 import * as seed from "./seed";
 import { fetchMedium } from "./medium";
 import type { Post, Project } from "./seed";
@@ -10,6 +11,7 @@ export type Settings = typeof seed.site & { blogMode: "both" | "native" | "mediu
 export async function getSettings(): Promise<Settings> {
   const base: Settings = { ...seed.site, blogMode: "both" };
   if (!db) return base;
+  await ensureDatabase();
   try {
     const row = await db.query.siteSettings.findFirst({ where: eq(schema.siteSettings.key, "site") });
     return { ...base, ...((row?.value as Partial<Settings>) ?? {}) };
@@ -21,6 +23,7 @@ export async function getSettings(): Promise<Settings> {
 export async function getMedia() {
   const out = { ...seed.media };
   if (!db) return out;
+  await ensureDatabase();
   try {
     const rows = await db.select().from(schema.mediaAssets);
     for (const r of rows) out[r.slot] = { label: r.label, url: r.url, alt: r.alt };
@@ -30,6 +33,7 @@ export async function getMedia() {
 
 export async function getProjects(): Promise<Project[]> {
   if (!db) return seed.projects;
+  await ensureDatabase();
   try {
     const rows = await db.select().from(schema.projects).where(eq(schema.projects.published, true)).orderBy(asc(schema.projects.order));
     return rows.length ? (rows as unknown as Project[]) : seed.projects;

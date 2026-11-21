@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Colons from "./Colons";
 
-type Beat = { key: string; word: string; line: string; sub: string; img: { url: string; alt: string } };
+type Beat = { key: string; word: string; line: string; sub: string; img: { url: string; alt: string }; href?: string; door?: string };
 
 /** Apple-style sticky storytelling: the image holds while three short statements scroll past. */
 export default function StickyStory({ beats }: { beats: Beat[] }) {
@@ -51,6 +52,12 @@ export default function StickyStory({ beats }: { beats: Beat[] }) {
               <p className={`display text-mega transition-colors duration-700 ${i === active ? "text-sky" : "text-sky/15"}`}>{b.word}</p>
               <p className="display mt-6 text-h3">{b.line}</p>
               <p className="mt-3 max-w-sm text-sky/55">{b.sub}</p>
+              {b.href && (
+                <Link href={b.href} className="group mt-8 inline-flex w-fit items-center gap-4 text-lg font-semibold">
+                  <span className="link-u">{b.door}</span>
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-sky/40 transition-all duration-500 ease-expo group-hover:w-20 group-hover:border-red group-hover:bg-red" aria-hidden>→</span>
+                </Link>
+              )}
             </div>
           ))}
         </div>

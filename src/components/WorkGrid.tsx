@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Project } from "@/lib/seed";
@@ -24,7 +25,7 @@ export default function WorkGrid({ projects, initial }: { projects: Project[]; i
         <AnimatePresence mode="popLayout">
           {list.map((p, i) => (
             <motion.li key={p.slug} layout initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className={i % 2 ? "md:mt-24" : ""}>
-              <article className="group">
+              <Link href={`/work/${p.slug}`} className="group block">
                 <div className={`relative aspect-[4/5] overflow-hidden rounded-[28px] ${p.discipline === "M&E" ? "bg-paper text-eagle" : "bg-eagle text-sky"}`}>
                   {p.image ? (
                     <Image src={p.image} alt={p.title} fill sizes="(min-width:768px) 50vw, 100vw" className="object-cover transition-transform duration-1000 ease-expo group-hover:scale-105" />
@@ -45,7 +46,7 @@ export default function WorkGrid({ projects, initial }: { projects: Project[]; i
                   <span className="eyebrow shrink-0 pt-2 text-ash">{p.discipline}{p.year ? ` · ${p.year}` : ""}</span>
                 </div>
                 {p.result && <p className="mt-4 text-sm font-semibold">{p.result}</p>}
-              </article>
+              </Link>
             </motion.li>
           ))}
         </AnimatePresence>

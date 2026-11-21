@@ -3,6 +3,7 @@ import Link from "next/link";
 import Colons from "@/components/Colons";
 import Kinetic from "@/components/Kinetic";
 import Magnetic from "@/components/Magnetic";
+import NewsletterBlock from "@/components/NewsletterBlock";
 import Parallax from "@/components/Parallax";
 import PostCard from "@/components/PostCard";
 import Reel from "@/components/Reel";
@@ -11,7 +12,7 @@ import Showcase from "@/components/Showcase";
 import StickyStory from "@/components/StickyStory";
 import Ticker from "@/components/Ticker";
 import { getMedia, getPosts, getSettings } from "@/lib/content";
-import { institutions, pillars, ventures } from "@/lib/seed";
+import { doors, institutions, pillars, ventures } from "@/lib/seed";
 
 export const revalidate = 300;
 
@@ -69,7 +70,8 @@ export default async function Home() {
         </div>
       </section>
 
-      <StickyStory beats={pillars.map((p) => ({ ...p, img: m[p.key] }))} />
+      {/* The ::: scroll stage. Each word opens its door: Head → Ideas, Heart → Impact, Hand → Work. */}
+      <StickyStory beats={pillars.map((p) => ({ ...p, img: m[p.key], href: doors[p.key as keyof typeof doors], door: { head: "Ideas", heart: "Impact", hand: "Work" }[p.key] }))} />
 
       <Showcase title="Where the work lives." cards={ventures} />
 
@@ -79,10 +81,10 @@ export default async function Home() {
       <section className="wrap py-28 sm:py-40">
         <div className="mb-14 flex items-end justify-between gap-6">
           <Reveal>
-            <Colons label="Latest thinking" className="mb-5 text-red" />
-            <h2 className="display text-h2">Insights.</h2>
+            <Colons label="Latest Hearticles" className="mb-5 text-red" />
+            <h2 className="display text-h2">Ideas.</h2>
           </Reveal>
-          <Link href="/insights" className="link-u text-sm font-semibold">All insights</Link>
+          <Link href="/ideas" className="link-u text-sm font-semibold">All ideas</Link>
         </div>
         <div className="grid gap-12 md:grid-cols-3 md:gap-6">
           {posts.slice(0, 3).map((p, i) => (
@@ -90,6 +92,8 @@ export default async function Home() {
           ))}
         </div>
       </section>
+
+      <NewsletterBlock />
 
       {/* Closing */}
       <section className="relative overflow-hidden bg-sky">

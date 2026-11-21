@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 import Colons from "@/components/Colons";
+import NewsletterBlock from "@/components/NewsletterBlock";
+import { book } from "@/lib/seed";
 import PostCard, { fmtDate } from "@/components/PostCard";
 import { getPost, getPosts } from "@/lib/content";
 
@@ -20,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: p.title,
     description: p.excerpt,
-    alternates: { canonical: p.canonicalUrl || `/insights/${p.slug}` },
+    alternates: { canonical: p.canonicalUrl || `/ideas/${p.slug}` },
     openGraph: { type: "article", title: p.title, description: p.excerpt, publishedTime: p.publishAt, images: p.cover ? [p.cover] : ["/og.png"] },
   };
 }
@@ -38,7 +40,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     <article>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <header className="wrap max-w-4xl pb-14 pt-36 sm:pt-48">
-        <Link href="/insights" className="link-u text-sm text-ash">← Insights</Link>
+        <Link href="/ideas" className="link-u text-sm text-ash">← Ideas</Link>
         <div className="mt-10 flex flex-wrap gap-4 text-xs font-medium uppercase tracking-[0.14em] text-ash">
           <span className="text-red">{p.category}</span><span>{fmtDate(p.publishAt)}</span><span>{p.readMinutes} min read</span>
           {p.source === "medium" && <span>Medium</span>}
@@ -58,14 +60,24 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           {p.canonicalUrl ? (
             <a href={p.canonicalUrl} target="_blank" rel="noreferrer" className="btn-ghost w-fit">Read on Medium ↗</a>
           ) : (
-            <Link href="/contact" className="btn-dark w-fit">Work with Godwin →</Link>
+            <Link href="/contact" className="btn-dark w-fit">Start a conversation →</Link>
           )}
         </div>
       </div>
+      <section className="wrap max-w-3xl pb-20">
+        <div className="flex flex-col gap-6 rounded-[28px] bg-paper p-8 sm:flex-row sm:items-center sm:justify-between sm:p-10">
+          <div>
+            <Colons label="Go deeper in the book" className="mb-3 text-red" />
+            <p className="display text-2xl">{book.title}</p>
+          </div>
+          <Link href="/book" className="btn-dark w-fit shrink-0">Read the first chapter →</Link>
+        </div>
+      </section>
+      <NewsletterBlock title="Get the next one first." />
       {more.length > 0 && (
         <section className="bg-paper py-24">
           <div className="wrap">
-            <p className="display mb-12 text-h3">Keep reading.</p>
+            <p className="display mb-12 text-h3">Next ideas.</p>
             <div className="grid gap-12 md:grid-cols-3 md:gap-6">{more.map((x) => <PostCard key={x.slug} p={x} />)}</div>
           </div>
         </section>

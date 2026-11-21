@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   }
   try {
     const r = await syncMedium();
-    revalidatePath("/insights");
+    revalidatePath("/ideas");
     revalidatePath("/");
     return NextResponse.json(r);
   } catch (e) {

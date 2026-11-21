@@ -20,7 +20,7 @@ export default async function Medium({ searchParams }: { searchParams: Promise<{
           <form action={saveMediumSettings} className="space-y-4">
             <div><label className={label}>Medium handle</label><input name="medium" defaultValue={`@${s.medium}`} className={input} /></div>
             <div>
-              <label className={label}>Show on /insights</label>
+              <label className={label}>Show on /ideas</label>
               <select name="blogMode" defaultValue={s.blogMode} className={input}>
                 <option value="both">Journal + Medium</option>
                 <option value="native">Journal only</option>

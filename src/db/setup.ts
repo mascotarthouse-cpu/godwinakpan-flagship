@@ -25,7 +25,11 @@ export async function databaseReady() {
 
 export async function setupDatabase() {
   if (!db) throw new Error("No database connected.");
-  for (const s of STATEMENTS) await db.execute(sql.raw(s));
+  // On Netlify Database the tables come from netlify/database/migrations (the app user can't run DDL).
+  // Elsewhere (local Postgres, Neon) create them here.
+  if (!(await databaseReady())) {
+    for (const s of STATEMENTS) await db.execute(sql.raw(s));
+  }
   for (const p of posts) {
     await db.insert(schema.posts).values({ ...p, publishAt: new Date(p.publishAt) }).onConflictDoNothing();
   }
@@ -39,7 +43,13 @@ export function ensureDatabase(): Promise<void> {
   if (!db) return Promise.resolve();
   if (!ensuring) {
     ensuring = (async () => {
-      if (!(await databaseReady())) await setupDatabase();
+      if (!(await databaseReady())) {
+        await setupDatabase();
+        return;
+      }
+      // Tables exist (e.g. created by Netlify migrations): add starter content if still empty.
+      const any = await db!.select({ id: schema.posts.id }).from(schema.posts).limit(1);
+      if (!any.length) await setupDatabase();
     })().catch((e) => {
       ensuring = null;
       console.error("database setup failed", e);

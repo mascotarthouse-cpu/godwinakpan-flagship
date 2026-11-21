@@ -81,7 +81,7 @@ export const pillars = [
 ];
 
 export const ventures = [
-  { title: "Mascot Arthouse", kicker: "Since 2004", line: "Brand strategy and design studio.", href: "/work?d=Brand", tone: "dark" as const },
+  { title: "Mascot Arthouse", kicker: "Since 2004", line: "Brand strategy and design studio.", href: "/about#ventures", tone: "dark" as const },
   { title: "Monitoring & Evaluation", kicker: "Public sector", line: "Oversight for infrastructure that has to work.", href: "/work?d=M%26E", tone: "light" as const },
   { title: "Brand Architecture", kicker: "Advisory", line: "Clear positions for bold institutions.", href: "/contact?intent=Brand%20Advisory", tone: "red" as const },
 ];
@@ -95,10 +95,11 @@ export const projects: Project[] = [
   { slug: "programme-evaluation", title: "Programme evaluation", client: "Non-profit", discipline: "M&E", year: "", summary: "Measuring what changed, and what it cost to change it.", result: "Add the project, scope and outcome in /admin.", image: "" },
 ];
 
+// `about` is the longer story on each initiative's own page (/impact/[slug]). TODO: write it.
 export const initiatives = [
-  { slug: "ibd", name: "Ifiok Beyond Design", short: "IBD", since: "Est. 2016", line: "A global community that mentors and upskills creatives.", cta: "Join the community", image: "/media/seated-floor.webp" },
-  { slug: "the-shift", name: "THE SHIFT", short: "SHIFT", since: "Annual · Uyo", line: "A youth empowerment and leadership symposium.", cta: "Attend or partner", image: "/media/hero-standing.webp" },
-  { slug: "dorathy-akpan-foundation", name: "Dorathy Akpan Foundation", short: "DAF", since: "Executive Director", line: "Charity and community impact, in her name.", cta: "Support the work", image: "/media/seated-stool.webp" },
+  { slug: "ibd", name: "Ifiok Beyond Design", short: "IBD", since: "Est. 2016", line: "A global community that mentors and upskills creatives.", cta: "Join the community", image: "/media/seated-floor.webp", about: "" },
+  { slug: "the-shift", name: "THE SHIFT", short: "SHIFT", since: "Annual · Uyo", line: "A youth empowerment and leadership symposium.", cta: "Attend or partner", image: "/media/hero-standing.webp", about: "" },
+  { slug: "dorathy-akpan-foundation", name: "Dorathy Akpan Foundation", short: "DAF", since: "Executive Director", line: "Charity and community impact, in her name.", cta: "Support the work", image: "/media/seated-stool.webp", about: "" },
 ];
 // TODO: Replace initiative images with event and community photos from Drive.
 
@@ -129,7 +130,53 @@ export const topics = [
   { title: "Rebranding Nigeria", line: "What the next decade of African brands must get right." },
 ];
 
-export const intents = ["Brand Advisory", "M&E Consulting", "Speaking Invitation", "Media/Press"] as const;
+export const intents = ["Brand Advisory", "M&E Consulting", "Speaking Invitation", "Partnership", "Media/Press"] as const;
+/** Not shown in the contact picker; used by newsletter and book sign-ups so they land in /admin → Inquiries. */
+export const signupIntents = ["Newsletter", "Book chapter"] as const;
+
+/* ---------- v3 unified sitemap: Head (Ideas) · Heart (Impact) · Hand (Work) ---------- */
+
+/** The three doors. The sticky philosophy story links each word to its page. */
+export const doors = { head: "/ideas", heart: "/impact", hand: "/work" } as const;
+
+/** Work keeps two practices. Ventures (his own companies) live on About. */
+export const practices = [
+  { key: "Brand", title: "Brand strategy", line: "Clear positions for bold institutions.", includes: ["Brand audits", "Positioning and brand architecture", "Identity systems with Mascot Arthouse"] },
+  { key: "M&E", title: "Monitoring & Evaluation", line: "Oversight for infrastructure and programmes that have to work.", includes: ["Independent monitoring of civil works", "Programme evaluation", "Reporting boards and funders can act on"] },
+];
+
+/** The usual first step into a brand engagement. */
+export const entryOffer = {
+  title: "Start with a brand audit.",
+  line: "Find where your brand builds trust and where it leaks it. Most engagements begin here.",
+};
+
+/** Godwin's own companies, shown on /about#ventures. */
+export const companies = [
+  { name: "Mascot Arthouse", since: "Since 2004", role: "Founder & Chief Creative Officer", line: "Brand strategy and design studio.", url: "" }, // TODO: add the Mascot Arthouse website
+];
+
+/** Board and advisory roles for /about. Empty until added. */
+export const boards: { when: string; title: string; detail: string }[] = [];
+
+/** The book. TODO: replace every field with the real title, cover, blurb and Selar or Paystack link. */
+export const book = {
+  title: "Your book title",
+  promise: "One line on what a reader will be able to do after reading it.",
+  cover: "",
+  about:
+    "Describe the book in two or three short paragraphs: who it is for, the problem it solves, and what makes it different.\n\n*Placeholder. Replace it in `src/lib/seed.ts` (book).*",
+  buyUrl: "",
+  buyLabel: "Buy the book",
+};
+
+/** Draft legal copy for /legal. Review before launch, including what Nigeria's Data Protection Act requires. */
+export const legal = {
+  privacy:
+    "This site collects only what you send through its forms: your name, email address, organisation and message when you get in touch, and your email address when you subscribe or ask for the book's first chapter. It is used to reply to you and to send what you asked for, and is never sold.\n\nMessages are stored in the site's database and may be forwarded by email. To have your details corrected or deleted, email the address on the Contact page.\n\n*Draft. Review before launch, including what Nigeria's Data Protection Act requires.*",
+  terms:
+    "Everything on this site, including essays, photographs and the Godwin Akpan identity, belongs to Barr. Godwin Akpan unless stated otherwise. You may share links and short quotes with credit. Ask before reusing anything else.\n\n*Draft. Review before launch.*",
+};
 
 export const posts: Post[] = [
   {

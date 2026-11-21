@@ -5,20 +5,22 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Colons from "./Colons";
 import Magnetic from "./Magnetic";
+import Search from "./Search";
 
+// Head · Heart · Hand, then proof. Four links and one button.
 const primary = [
-  { href: "/about", label: "About" },
-  { href: "/work", label: "Work" },
-  { href: "/initiatives", label: "Initiatives" },
-  { href: "/speaking-media", label: "Speaking" },
-  { href: "/insights", label: "Insights" },
+  { href: "/ideas", label: "Ideas", motif: "Head" },
+  { href: "/impact", label: "Impact", motif: "Heart" },
+  { href: "/work", label: "Work", motif: "Hand" },
+  { href: "/about", label: "About", motif: "Proof" },
 ];
-const everything = [{ href: "/", label: "Home" }, ...primary, { href: "/contact", label: "Contact" }];
+const everything = [{ href: "/", label: "Home" }, ...primary, { href: "/speaking", label: "Speaking" }, { href: "/contact", label: "Contact" }];
 const ecosystem = [
-  { href: "/work?d=Brand", label: "Mascot Arthouse" },
-  { href: "/initiatives#ibd", label: "Ifiok Beyond Design" },
-  { href: "/initiatives#the-shift", label: "THE SHIFT" },
-  { href: "/initiatives#dorathy-akpan-foundation", label: "Dorathy Akpan Foundation" },
+  { href: "/about#ventures", label: "Mascot Arthouse" },
+  { href: "/impact/ibd", label: "Ifiok Beyond Design" },
+  { href: "/impact/the-shift", label: "THE SHIFT" },
+  { href: "/impact/dorathy-akpan-foundation", label: "Dorathy Akpan Foundation" },
+  { href: "/book", label: "The book" },
 ];
 
 export default function Header({ socials }: { socials: { label: string; href: string }[] }) {
@@ -62,16 +64,17 @@ export default function Header({ socials }: { socials: { label: string; href: st
           </Link>
           <nav className="hidden items-center gap-8 text-sm lg:flex" aria-label="Primary">
             {primary.map((l) => (
-              <Link key={l.href} href={l.href} className={`link-u ${path.startsWith(l.href) ? "bg-[length:100%_1px]" : ""}`}>
+              <Link key={l.href} href={l.href} title={l.motif} className={`link-u ${path.startsWith(l.href) ? "bg-[length:100%_1px]" : ""}`}>
                 {l.label}
               </Link>
             ))}
           </nav>
           <div className="flex items-center gap-3">
+            <Search />
             <div className="hidden sm:block">
               <Magnetic>
                 <Link href="/contact" className={open ? "btn-light" : "btn-dark"}>
-                  Work with Godwin
+                  Start a conversation
                 </Link>
               </Magnetic>
             </div>
@@ -127,7 +130,7 @@ export default function Header({ socials }: { socials: { label: string; href: st
                     ))}
                   </ul>
                 </div>
-                <Link href="/contact" className="btn-light w-fit sm:hidden">Work with Godwin</Link>
+                <Link href="/contact" className="btn-light w-fit sm:hidden">Start a conversation</Link>
               </motion.div>
             </div>
           </motion.div>

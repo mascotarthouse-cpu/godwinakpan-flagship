@@ -5,8 +5,9 @@ import type { Settings } from "@/lib/content";
 export default function Footer({ s }: { s: Settings }) {
   const year = new Date().getFullYear();
   const cols = [
-    { title: "Explore", links: [["About", "/about"], ["Work", "/work"], ["Initiatives", "/initiatives"], ["Speaking & Media", "/speaking-media"], ["Insights", "/insights"]] },
-    { title: "Ecosystem", links: [["Mascot Arthouse", "/work?d=Brand"], ["Ifiok Beyond Design", "/initiatives#ibd"], ["THE SHIFT", "/initiatives#the-shift"], ["Dorathy Akpan Foundation", "/initiatives#dorathy-akpan-foundation"]] },
+    { title: "Head · Ideas", links: [["Hearticles", "/ideas"], ["The book", "/book"], ["Newsletter", "/newsletter"], ["Speaking", "/speaking"]] },
+    { title: "Heart · Impact", links: [["Purpose over pleasure", "/impact"], ["Ifiok Beyond Design", "/impact/ibd"], ["THE SHIFT", "/impact/the-shift"], ["Dorathy Akpan Foundation", "/impact/dorathy-akpan-foundation"]] },
+    { title: "Hand · Work", links: [["Brand strategy", "/work?d=Brand"], ["Monitoring & Evaluation", "/work?d=M%26E"], ["Mascot Arthouse", "/about#ventures"], ["About", "/about"]] },
     { title: "Connect", links: s.socials.map((x) => [x.label, x.href]) },
   ];
   return (
@@ -32,14 +33,17 @@ export default function Footer({ s }: { s: Settings }) {
               </ul>
             </nav>
           ))}
-          <div className="lg:col-span-2">
-            <p className="eyebrow mb-4 text-slate">Start</p>
-            <Link href="/contact" className="btn-light">Work with Godwin</Link>
-          </div>
         </div>
+        <div className="mt-12"><Link href="/contact" className="btn-light">Start a conversation</Link></div>
         <div className="mt-16 flex flex-col justify-between gap-2 text-xs text-sky/40 sm:flex-row">
           <p>© {year} Barr. Godwin Akpan. All rights reserved.</p>
-          <p>Head · Heart · Hand</p>
+          <p className="flex flex-wrap gap-x-4">
+            <Link href="/press" className="link-u hover:text-sky">Press</Link>
+            <Link href="/legal" className="link-u hover:text-sky">Legal</Link>
+            <a href="/rss.xml" className="link-u hover:text-sky">RSS</a>
+            <a href="/llms.txt" className="link-u hover:text-sky">llms.txt</a>
+            <span>Head · Heart · Hand</span>
+          </p>
         </div>
       </div>
     </footer>

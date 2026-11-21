@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db, schema } from "@/db";
-import { intents } from "@/lib/seed";
+import { intents, signupIntents } from "@/lib/seed";
 
 export async function POST(req: Request) {
   const b = await req.json().catch(() => null);
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   const email = String(b.email || "").trim().slice(0, 200);
   const message = String(b.message || "").trim().slice(0, 5000);
   const organisation = String(b.organisation || "").trim().slice(0, 200);
-  const intent = intents.find((i) => i === b.intent) || "Brand Advisory";
+  const intent = [...intents, ...signupIntents].find((i) => i === b.intent) || "Brand Advisory";
   if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || !message) {
     return NextResponse.json({ error: "Please add your name, a valid email and a message." }, { status: 400 });
   }

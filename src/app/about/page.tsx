@@ -7,7 +7,7 @@ import Parallax from "@/components/Parallax";
 import Reveal from "@/components/Reveal";
 import Timeline from "@/components/Timeline";
 import { getMedia } from "@/lib/content";
-import { roles, timeline } from "@/lib/seed";
+import { boards, companies, roles, timeline } from "@/lib/seed";
 
 export const metadata: Metadata = {
   title: "About",
@@ -71,6 +71,41 @@ export default async function About() {
         </ul>
       </section>
 
+      <section id="ventures" className="wrap scroll-mt-24 pb-24 sm:pb-36">
+        <Colons label="Ventures" className="mb-6 text-red" />
+        <h2 className="display text-h2">What he built.</h2>
+        <div className="mt-12 grid gap-4 sm:grid-cols-2">
+          {companies.map((c) => {
+            const inner = (
+              <>
+                <div className="flex items-start justify-between">
+                  <span className="eyebrow opacity-70">{c.since}</span>
+                  <Colons w={36} className="text-red" />
+                </div>
+                <div>
+                  <h3 className="display text-h2">{c.name}</h3>
+                  <p className="mt-3 text-lg opacity-75">{c.line}</p>
+                  <p className="mt-6 text-sm opacity-60">{c.role}</p>
+                </div>
+              </>
+            );
+            const cls = "flex min-h-[340px] flex-col justify-between rounded-[28px] bg-eagle p-8 text-sky sm:p-10";
+            return c.url ? <a key={c.name} href={c.url} target="_blank" rel="noreferrer" className={cls}>{inner}</a> : <div key={c.name} className={cls}>{inner}</div>;
+          })}
+        </div>
+      </section>
+
+      {boards.length > 0 && (
+        <section className="wrap grid gap-12 pb-24 sm:pb-36 lg:grid-cols-12">
+          <Reveal className="lg:col-span-4"><p className="eyebrow text-ash">Boards & advisory</p></Reveal>
+          <ul className="divide-y divide-eagle/10 border-y border-eagle/10 lg:col-span-7 lg:col-start-6">
+            {boards.map((b) => (
+              <li key={b.title} className="grid gap-1 py-5 sm:grid-cols-4"><span className="text-ash">{b.when}</span><span className="sm:col-span-3"><b>{b.title}</b> <span className="text-ash">{b.detail}</span></span></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <section className="bg-obsidian py-24 text-sky sm:py-36">
         <div className="wrap">
           <Colons label="The method · Learning" className="mb-6 text-red" />
@@ -81,7 +116,10 @@ export default async function About() {
 
       <section className="wrap flex flex-col items-start gap-8 py-28 sm:py-40">
         <Kinetic as="h2" words={["Purpose", "over", "pleasure."]} className="display text-mega" accentLast />
-        <Link href="/contact" className="btn-dark">Work with Godwin <span aria-hidden>→</span></Link>
+        <div className="flex flex-wrap items-center gap-6">
+          <Link href="/contact" className="btn-dark">Start a conversation <span aria-hidden>→</span></Link>
+          <Link href="/press" className="link-u text-sm font-semibold">Press &amp; media kit</Link>
+        </div>
       </section>
     </>
   );

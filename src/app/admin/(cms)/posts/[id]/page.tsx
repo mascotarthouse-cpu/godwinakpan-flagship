@@ -15,7 +15,7 @@ export default async function EditPost({ params, searchParams }: { params: Promi
   if (!isNew && !p) notFound();
   return (
     <>
-      <Title action={p && p.status !== "draft" ? <a href={`/insights/${p.slug}`} target="_blank" className="btn-ghost">View ↗</a> : null}>{isNew ? "New insight" : "Edit insight"}</Title>
+      <Title action={p && p.status !== "draft" ? <a href={`/ideas/${p.slug}`} target="_blank" className="btn-ghost">View ↗</a> : null}>{isNew ? "New insight" : "Edit insight"}</Title>
       <Saved show={saved} />
       <form action={savePost} className="grid gap-6 xl:grid-cols-[1fr_320px]">
         <input type="hidden" name="id" value={p?.id ?? ""} />

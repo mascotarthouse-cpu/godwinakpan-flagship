@@ -1,14 +1,19 @@
 import type { MetadataRoute } from "next";
-import { getPosts } from "@/lib/content";
-import { site } from "@/lib/seed";
+import { getPosts, getProjects } from "@/lib/content";
+import { initiatives, site } from "@/lib/seed";
 
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const pages = ["", "/about", "/work", "/initiatives", "/speaking-media", "/insights", "/contact"];
-  const posts = (await getPosts()).filter((p) => p.source === "native");
+  // Main doors first, then the quiet pages. /admin is never listed.
+  const main = ["", "/ideas", "/impact", "/work", "/about", "/speaking", "/contact"];
+  const quiet = ["/book", "/press", "/newsletter", "/legal"];
+  const [posts, projects] = await Promise.all([getPosts(), getProjects()]);
   return [
-    ...pages.map((p) => ({ url: `${site.url}${p}`, changeFrequency: "weekly" as const, priority: p ? 0.8 : 1 })),
-    ...posts.map((p) => ({ url: `${site.url}/insights/${p.slug}`, lastModified: p.publishAt, priority: 0.6 })),
+    ...main.map((p) => ({ url: `${site.url}${p}`, changeFrequency: "weekly" as const, priority: p ? 0.8 : 1 })),
+    ...quiet.map((p) => ({ url: `${site.url}${p}`, changeFrequency: "monthly" as const, priority: 0.4 })),
+    ...posts.filter((p) => p.source === "native").map((p) => ({ url: `${site.url}/ideas/${p.slug}`, lastModified: p.publishAt, priority: 0.6 })),
+    ...initiatives.map((i) => ({ url: `${site.url}/impact/${i.slug}`, priority: 0.6 })),
+    ...projects.map((p) => ({ url: `${site.url}/work/${p.slug}`, priority: 0.5 })),
   ];
 }

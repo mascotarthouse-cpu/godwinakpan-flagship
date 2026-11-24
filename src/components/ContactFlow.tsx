@@ -43,7 +43,7 @@ export default function ContactFlow({ initialIntent, about }: { initialIntent?: 
                   <input name="name" required placeholder="Your name" className={field} autoComplete="name" />
                   <input name="email" type="email" required placeholder="Email" className={field} autoComplete="email" />
                   <input name="organisation" placeholder="Organisation (optional)" className={field} autoComplete="organization" />
-                  <textarea name="message" required rows={4} defaultValue={about ? `About ${about}: ` : ""} placeholder={intent === "Speaking Invitation" ? "Event, date, audience" : "What are you working on?"} className={`${field} resize-none`} />
+                  <textarea name="message" required rows={4} defaultValue={about ? `About ${about}: ` : ""} placeholder={intent === "Speaking Invitation" ? "Event, date, audience" : intent === "Mentorship" ? "Where are you now, and where do you want to be in a year?" : "What are you working on?"} className={`${field} resize-none`} />
                   <input name="company_website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
                   <button disabled={state === "sending"} className="btn-dark mt-10">{state === "sending" ? "Sending…" : "Send"} <span aria-hidden>→</span></button>
                   {state === "error" && <p className="mt-4 text-sm text-red" role="alert">{err}</p>}

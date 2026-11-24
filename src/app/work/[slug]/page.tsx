@@ -6,6 +6,7 @@ import Colons from "@/components/Colons";
 import Kinetic from "@/components/Kinetic";
 import Reveal from "@/components/Reveal";
 import { getProjects } from "@/lib/content";
+import { testimonials } from "@/lib/seed";
 
 export const revalidate = 300;
 
@@ -60,6 +61,16 @@ export default async function Case({ params }: { params: Promise<{ slug: string 
           <Reveal><Link href={`/contact?intent=${p.discipline === "M&E" ? "M%26E%20Consulting" : "Brand%20Advisory"}&about=${encodeURIComponent(p.title)}`} className="btn-dark">Start a similar project <span aria-hidden>→</span></Link></Reveal>
         </div>
       </section>
+
+      {/* Proof at the moment of evaluation: the client's own words, right under the result. */}
+      {testimonials[p.slug] && (
+        <section className="wrap pb-24 sm:pb-36">
+          <figure className="mx-auto max-w-4xl border-l-2 border-red pl-6 sm:pl-10">
+            <blockquote className="display text-h3 leading-snug">“{testimonials[p.slug].quote}”</blockquote>
+            <figcaption className="mt-6 text-ash">{testimonials[p.slug].name}, {testimonials[p.slug].role}</figcaption>
+          </figure>
+        </section>
+      )}
 
       {next && next.slug !== p.slug && (
         <Link href={`/work/${next.slug}`} className="group block bg-obsidian text-sky">

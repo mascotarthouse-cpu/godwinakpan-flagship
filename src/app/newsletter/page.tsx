@@ -15,7 +15,7 @@ export default function Newsletter() {
       <PageHero eyebrow="Head · Newsletter" words={["Random", "Deep", "Thoughts."]} line="One idea a week. Two minutes to read. No noise." />
       <section className="wrap pb-28 sm:pb-40">
         <SignupForm intent="Newsletter" />
-        <p className="mt-10 text-ash">Want to see what you&apos;d get? <Link href="/ideas" className="link-u text-eagle">Read the latest Hearticles</Link>.</p>
+        <p className="mt-10 text-ash">Want to see what you&apos;d get? <Link href="/hearticles" className="link-u text-eagle">Read the latest Hearticles</Link>.</p>
       </section>
     </>
   );

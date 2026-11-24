@@ -33,7 +33,7 @@ export async function readUpload(key: string): Promise<{ body: ArrayBuffer; type
   }
   try {
     const b = await fs.readFile(path.join(LOCAL, safe));
-    const type = ({ webp: "image/webp", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", gif: "image/gif", svg: "image/svg+xml", mp4: "video/mp4", pdf: "application/pdf" } as Record<string, string>)[safe.split(".").pop() || ""] || "application/octet-stream";
+    const type = ({ webp: "image/webp", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", gif: "image/gif", svg: "image/svg+xml", mp4: "video/mp4", pdf: "application/pdf", mp3: "audio/mpeg", m4a: "audio/mp4" } as Record<string, string>)[safe.split(".").pop() || ""] || "application/octet-stream";
     return { body: b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength) as ArrayBuffer, type };
   } catch {
     return null;

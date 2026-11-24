@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       headers: { authorization: `Bearer ${process.env.RESEND_API_KEY}`, "content-type": "application/json" },
       body: JSON.stringify({
         from: process.env.INQUIRY_FROM || "Website <onboarding@resend.dev>",
-        to: [process.env.INQUIRY_TO || "godwin-akpan@outlook.com"],
+        to: [process.env.INQUIRY_TO || "disrupt@godwinakpan.si"],
         reply_to: email,
         subject: `New ${intent} inquiry from ${name}`,
         text: `${intent}\n\nName: ${name}\nEmail: ${email}\nOrganisation: ${organisation || "-"}\n\n${message}`,
@@ -41,6 +41,6 @@ export async function POST(req: Request) {
     mailed = !!r?.ok;
   }
 
-  if (!saved && !mailed) return NextResponse.json({ error: "We couldn't send that just now. Please email godwin-akpan@outlook.com." }, { status: 503 });
+  if (!saved && !mailed) return NextResponse.json({ error: "We couldn't send that just now. Please email disrupt@godwinakpan.si." }, { status: 503 });
   return NextResponse.json({ ok: true });
 }

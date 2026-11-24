@@ -14,15 +14,15 @@ export async function GET() {
 ${site.descriptor}, based in ${site.location}. Philosophy: ${site.philosophy} Brand motif: ::: Head · Heart · Hand.
 
 ## Main pages
-- [Ideas](${u}/ideas): Hearticles (essays) and talks
-- [Impact](${u}/impact): ${initiatives.map((i) => i.name).join(", ")}
-- [Work](${u}/work): ${practices.map((p) => p.title).join(" and ")}
-- [About](${u}/about): story, credentials and ventures (${companies.map((c) => c.name).join(", ")})
-- [Speaking](${u}/speaking): keynotes on ${topics.map((t) => t.title).join("; ")}
+- [Hearticles](${u}/hearticles): essays (long-form) and Sparks (short thoughts)
+- [The Legacy](${u}/impact): ${initiatives.map((i) => i.name).join(", ")}
+- [The Craft](${u}/work): ${practices.map((p) => p.title).join(" and ")}
+- [The Man](${u}/about): story, credentials and ventures (${companies.map((c) => c.name).join(", ")})
+- [The Stage](${u}/stage): keynotes, press kit and coverage. Talks: ${topics.map((t) => t.title).join("; ")}
 - [Contact](${u}/contact)
 
 ## Hearticles
-${posts.map((p) => `- [${p.title}](${p.canonicalUrl || `${u}/ideas/${p.slug}`}): ${p.excerpt}`).join("\n")}
+${posts.map((p) => `- [${p.title}](${p.canonicalUrl || `${u}/hearticles/${p.slug}`}): ${p.excerpt}`).join("\n")}
 `;
   return new Response(txt, { headers: { "content-type": "text/plain; charset=utf-8" } });
 }

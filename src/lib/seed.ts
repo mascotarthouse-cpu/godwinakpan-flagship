@@ -27,7 +27,9 @@ export type Project = {
   image: string;
 };
 
-export const CATEGORIES = ["Disruptive Strategy", "Brand Architecture", "Leadership", "M&E & Governance"] as const;
+export const CATEGORIES = ["Disruptive Strategy", "Brand Architecture", "Leadership", "M&E & Governance", "Sparks"] as const;
+/** A post in this category is a Spark: a short thought (280 characters or less), shown as a quote card. */
+export const SPARK = "Sparks";
 
 export const site = {
   name: "Godwin Akpan",
@@ -39,7 +41,8 @@ export const site = {
   descriptor: "Disruptive brand strategist",
   description:
     "Barr. Godwin Akpan is a disruptive brand strategist, M&E consultant and founder of Mascot Arthouse. Do. Disrupt. Dominate. Win!™",
-  email: "godwin-akpan@outlook.com",
+  email: "disrupt@godwinakpan.si",
+  cvUrl: "", // TODO: upload the public profile / CV PDF and paste its link here (shows a Download CV button on /about)
   phone: "+234 803 639 3737",
   location: "Uyo, Nigeria",
   medium: "thegodwinakpan",
@@ -130,14 +133,14 @@ export const topics = [
   { title: "Rebranding Nigeria", line: "What the next decade of African brands must get right." },
 ];
 
-export const intents = ["Brand Advisory", "M&E Consulting", "Speaking Invitation", "Partnership", "Media/Press"] as const;
+export const intents = ["Brand Advisory", "M&E Consulting", "Speaking Invitation", "Mentorship", "Partnership", "Media/Press"] as const;
 /** Not shown in the contact picker; used by newsletter and book sign-ups so they land in /admin → Inquiries. */
 export const signupIntents = ["Newsletter", "Book chapter"] as const;
 
 /* ---------- v3 unified sitemap: Head (Ideas) · Heart (Impact) · Hand (Work) ---------- */
 
 /** The three doors. The sticky philosophy story links each word to its page. */
-export const doors = { head: "/ideas", heart: "/impact", hand: "/work" } as const;
+export const doors = { head: "/hearticles", heart: "/impact", hand: "/work" } as const;
 
 /** Work keeps two practices. Ventures (his own companies) live on About. */
 export const practices = [
@@ -153,7 +156,8 @@ export const entryOffer = {
 
 /** Godwin's own companies, shown on /about#ventures. */
 export const companies = [
-  { name: "Mascot Arthouse", since: "Since 2004", role: "Founder & Chief Creative Officer", line: "Brand strategy and design studio.", url: "" }, // TODO: add the Mascot Arthouse website
+  { name: "Mascot Arthouse", since: "Since 2004", role: "Founder & Chief Creative Officer", line: "Brand strategy and design studio.", url: "", hire: "/contact?intent=Brand%20Advisory&about=Mascot%20Arthouse" }, // TODO: add the Mascot Arthouse website
+  { name: "Ecohaven", since: "Agro & stays", role: "Founder", line: "An agro business, and an Airbnb apartment to stay in.", url: "", hire: "" }, // TODO: add the Ecohaven website or Airbnb listing link
 ];
 
 /** Board and advisory roles for /about. Empty until added. */
@@ -250,3 +254,15 @@ Every leader faces the same daily trade: comfort today, or progress that compoun
 *Placeholder essay. Edit or replace it in /admin.*`,
   },
 ];
+
+/**
+ * Talks given at events. A QR code on stage can point to /stage?from=<slug>: the page then opens
+ * with that talk's slides and a booking button. TODO: add each engagement as it happens.
+ */
+export const engagements: { slug: string; event: string; talk: string; date: string; slidesUrl: string }[] = [];
+
+/** Upcoming events for /impact (and each initiative page when `initiative` matches its slug). Past dates hide themselves. */
+export const events: { title: string; date: string; place: string; initiative?: string; url?: string }[] = [];
+
+/** Client words shown under a case study, keyed by project slug. TODO: add real, approved quotes. */
+export const testimonials: Record<string, { quote: string; name: string; role: string }> = {};

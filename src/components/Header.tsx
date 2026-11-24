@@ -7,16 +7,19 @@ import Colons from "./Colons";
 import Magnetic from "./Magnetic";
 import Search from "./Search";
 
-// Head · Heart · Hand, then proof. Four links and one button.
+// Five narrative doors, in story order: identity → mastery → depth → reach → legacy.
+// The poetic name is the voice; the plain word under it is how people find their way (and stays in titles and URLs).
 const primary = [
-  { href: "/ideas", label: "Ideas", motif: "Head" },
-  { href: "/impact", label: "Impact", motif: "Heart" },
-  { href: "/work", label: "Work", motif: "Hand" },
-  { href: "/about", label: "About", motif: "Proof" },
+  { href: "/about", label: "The Man", plain: "About" },
+  { href: "/work", label: "The Craft", plain: "Work" },
+  { href: "/hearticles", label: "Hearticles", plain: "Essays" },
+  { href: "/stage", label: "The Stage", plain: "Speaking & press" },
+  { href: "/impact", label: "The Legacy", plain: "Impact" },
 ];
-const everything = [{ href: "/", label: "Home" }, ...primary, { href: "/speaking", label: "Speaking" }, { href: "/contact", label: "Contact" }];
+const everything = [{ href: "/", label: "Home", plain: "Start here" }, ...primary, { href: "/contact", label: "Disrupt", plain: "Start a conversation" }];
 const ecosystem = [
   { href: "/about#ventures", label: "Mascot Arthouse" },
+  { href: "/about#ventures", label: "Ecohaven" },
   { href: "/impact/ibd", label: "Ifiok Beyond Design" },
   { href: "/impact/the-shift", label: "THE SHIFT" },
   { href: "/impact/dorathy-akpan-foundation", label: "Dorathy Akpan Foundation" },
@@ -62,10 +65,11 @@ export default function Header({ socials }: { socials: { label: string; href: st
             <Colons className={open ? "text-red" : "text-red"} />
             <span>Godwin Akpan</span>
           </Link>
-          <nav className="hidden items-center gap-8 text-sm lg:flex" aria-label="Primary">
+          <nav className="hidden items-center gap-7 xl:flex" aria-label="Primary">
             {primary.map((l) => (
-              <Link key={l.href} href={l.href} title={l.motif} className={`link-u ${path.startsWith(l.href) ? "bg-[length:100%_1px]" : ""}`}>
-                {l.label}
+              <Link key={l.href} href={l.href} className="group flex flex-col leading-tight">
+                <span className={`link-u text-sm ${path.startsWith(l.href) ? "bg-[length:100%_1px]" : ""}`}>{l.label}</span>
+                <span className="text-[0.68rem] text-ash transition-colors group-hover:text-red">{l.plain}</span>
               </Link>
             ))}
           </nav>
@@ -73,8 +77,8 @@ export default function Header({ socials }: { socials: { label: string; href: st
             <Search />
             <div className="hidden sm:block">
               <Magnetic>
-                <Link href="/contact" className={open ? "btn-light" : "btn-dark"}>
-                  Start a conversation
+                <Link href="/contact" className="btn bg-red text-sky hover:bg-eagle" aria-label="Disrupt: start a conversation">
+                  Disrupt <span aria-hidden>→</span>
                 </Link>
               </Magnetic>
             </div>
@@ -108,6 +112,7 @@ export default function Header({ socials }: { socials: { label: string; href: st
                       <Link href={l.href} className="display group flex items-baseline gap-4 py-1 text-[clamp(2.5rem,7vw,5.5rem)] leading-[1.02] text-sky/90 transition-colors hover:text-sky">
                         <span className="text-sm font-medium text-red">{String(i + 1).padStart(2, "0")}</span>
                         <span className="transition-transform duration-500 ease-expo group-hover:translate-x-3">{l.label}</span>
+                        <span className="font-body text-sm font-medium text-sky/45">— {l.plain}</span>
                       </Link>
                     </motion.li>
                   ))}
@@ -130,7 +135,7 @@ export default function Header({ socials }: { socials: { label: string; href: st
                     ))}
                   </ul>
                 </div>
-                <Link href="/contact" className="btn-light w-fit sm:hidden">Start a conversation</Link>
+                <Link href="/contact" className="btn w-fit bg-red text-sky sm:hidden">Disrupt <span aria-hidden>→</span></Link>
               </motion.div>
             </div>
           </motion.div>

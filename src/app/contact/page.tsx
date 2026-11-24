@@ -17,7 +17,7 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
   return (
     <section className="wrap grid gap-14 pb-28 pt-32 sm:pt-44 lg:grid-cols-12">
       <div className="lg:col-span-6">
-        <Colons label="Advisory · Speaking · Collaborations" className="mb-8 text-red" />
+        <Colons label="Disrupt · Start a conversation" className="mb-8 text-red" />
         <Kinetic words={["Let's", "talk."]} className="display text-hero" />
         <ContactFlow initialIntent={intent} about={about} />
       </div>
@@ -28,6 +28,7 @@ export default async function Contact({ searchParams }: { searchParams: Promise<
         <div className="mt-8 space-y-1 text-lg">
           <a href={`mailto:${s.email}`} className="link-u block w-fit break-all">{s.email}</a>
           <a href={`tel:${s.phone.replace(/\s/g, "")}`} className="link-u block w-fit">{s.phone}</a>
+          <a href={`https://wa.me/${s.phone.replace(/\D/g, "")}`} target="_blank" rel="noreferrer" className="link-u block w-fit font-semibold">Message on WhatsApp ↗</a>
           <p className="text-ash">{s.location}</p>
         </div>
       </aside>

@@ -18,7 +18,7 @@ export default async function Work({ searchParams }: { searchParams: Promise<{ d
   const [{ d }, projects] = await Promise.all([searchParams, getProjects()]);
   return (
     <>
-      <PageHero eyebrow="Hand · Brand & M&E" words={["Work", "that", "moves."]} line="Two practices, one discipline: name the real problem, then deliver." />
+      <PageHero eyebrow="02 · The Craft · Work" words={["Work", "that", "moves."]} line="Two practices, one discipline: name the real problem, then deliver." />
 
       <section className="wrap grid gap-4 pb-24 sm:grid-cols-2 sm:pb-36">
         {practices.map((p, i) => (
@@ -35,6 +35,18 @@ export default async function Work({ searchParams }: { searchParams: Promise<{ d
             </Link>
           </Reveal>
         ))}
+      </section>
+
+      {/* The studio behind the brand work: hiring Mascot Arthouse is one click from here. */}
+      <section className="wrap pb-24 sm:pb-36">
+        <Link href="/contact?intent=Brand%20Advisory&about=Mascot%20Arthouse" className="group flex flex-col justify-between gap-8 rounded-[28px] border border-eagle/10 p-8 transition-colors hover:border-red sm:flex-row sm:items-center sm:p-10">
+          <div>
+            <Colons label="The studio · Since 2004" className="mb-4 text-red" />
+            <p className="display text-h3">Mascot Arthouse</p>
+            <p className="mt-2 max-w-lg text-ash">The brand strategy and design studio Godwin founded. Hire the team behind the work.</p>
+          </div>
+          <span className="btn-dark w-fit shrink-0">Work with Mascot Arthouse <span aria-hidden>→</span></span>
+        </Link>
       </section>
 
       <section className="bg-obsidian text-sky">
@@ -57,11 +69,11 @@ export default async function Work({ searchParams }: { searchParams: Promise<{ d
 
       <section className="wrap mt-28 grid gap-10 border-t border-eagle/10 py-24 sm:mt-40 sm:py-32 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7">
-          <Colons label="On stage" className="mb-6 text-red" />
+          <Colons label="04 · The Stage" className="mb-6 text-red" />
           <p className="display text-h2">Bring the room to its feet.</p>
         </div>
         <div className="flex flex-wrap items-center gap-6 lg:col-span-5 lg:justify-end">
-          <Link href="/speaking" className="btn-dark">Speaking <span aria-hidden>→</span></Link>
+          <Link href="/stage" className="btn-dark">The Stage <span aria-hidden>→</span></Link>
           <Link href="/contact" className="link-u text-sm font-semibold">Start a conversation</Link>
         </div>
       </section>

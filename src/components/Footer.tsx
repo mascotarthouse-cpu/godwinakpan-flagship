@@ -5,7 +5,7 @@ import type { Settings } from "@/lib/content";
 export default function Footer({ s }: { s: Settings }) {
   const year = new Date().getFullYear();
   const cols = [
-    { title: "Head · Ideas", links: [["Hearticles", "/ideas"], ["The book", "/book"], ["Newsletter", "/newsletter"], ["Speaking", "/speaking"]] },
+    { title: "Head · Ideas", links: [["Hearticles", "/hearticles"], ["The book", "/book"], ["Newsletter", "/newsletter"], ["The Stage", "/stage"]] },
     { title: "Heart · Impact", links: [["Purpose over pleasure", "/impact"], ["Ifiok Beyond Design", "/impact/ibd"], ["THE SHIFT", "/impact/the-shift"], ["Dorathy Akpan Foundation", "/impact/dorathy-akpan-foundation"]] },
     { title: "Hand · Work", links: [["Brand strategy", "/work?d=Brand"], ["Monitoring & Evaluation", "/work?d=M%26E"], ["Mascot Arthouse", "/about#ventures"], ["About", "/about"]] },
     { title: "Connect", links: s.socials.map((x) => [x.label, x.href]) },
@@ -38,7 +38,7 @@ export default function Footer({ s }: { s: Settings }) {
         <div className="mt-16 flex flex-col justify-between gap-2 text-xs text-sky/40 sm:flex-row">
           <p>© {year} Barr. Godwin Akpan. All rights reserved.</p>
           <p className="flex flex-wrap gap-x-4">
-            <Link href="/press" className="link-u hover:text-sky">Press</Link>
+            <Link href="/stage#press" className="link-u hover:text-sky">Press</Link>
             <Link href="/legal" className="link-u hover:text-sky">Legal</Link>
             <a href="/rss.xml" className="link-u hover:text-sky">RSS</a>
             <a href="/llms.txt" className="link-u hover:text-sky">llms.txt</a>

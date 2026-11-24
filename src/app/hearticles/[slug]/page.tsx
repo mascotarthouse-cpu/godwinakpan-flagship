@@ -6,7 +6,11 @@ import { marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 import Colons from "@/components/Colons";
 import NewsletterBlock from "@/components/NewsletterBlock";
-import { book } from "@/lib/seed";
+import AudioBar from "@/components/AudioBar";
+import HeartButton from "@/components/HeartButton";
+import QuoteShare from "@/components/QuoteShare";
+import { getAudio } from "@/lib/engage";
+import { book, site } from "@/lib/seed";
 import PostCard, { fmtDate } from "@/components/PostCard";
 import { getPost, getPosts } from "@/lib/content";
 
@@ -22,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: p.title,
     description: p.excerpt,
-    alternates: { canonical: p.canonicalUrl || `/ideas/${p.slug}` },
+    alternates: { canonical: p.canonicalUrl || `/hearticles/${p.slug}` },
     openGraph: { type: "article", title: p.title, description: p.excerpt, publishedTime: p.publishAt, images: p.cover ? [p.cover] : ["/og.png"] },
   };
 }
@@ -34,13 +38,14 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   if (!p) notFound();
   const html = p.source === "medium" ? p.body : sanitizeHtml(await marked.parse(p.body), { allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "h1", "h2"]), allowedAttributes: { a: ["href", "target", "rel"], img: ["src", "alt"] } });
   const more = all.filter((x) => x.slug !== slug).slice(0, 3);
-  const ld = { "@context": "https://schema.org", "@type": "Article", headline: p.title, datePublished: p.publishAt, author: { "@type": "Person", name: "Godwin Akpan" }, description: p.excerpt };
+  const audio = p.source === "native" ? await getAudio(p.slug) : "";
+  const ld = { "@context": "https://schema.org", "@type": "Article", headline: p.title, datePublished: p.publishAt, url: `${site.url}/hearticles/${p.slug}`, author: { "@type": "Person", name: "Godwin Akpan", url: site.url }, description: p.excerpt, ...(audio ? { audio: { "@type": "AudioObject", contentUrl: audio.startsWith("http") ? audio : `${site.url}${audio}` } } : {}) };
 
   return (
     <article>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <header className="wrap max-w-4xl pb-14 pt-36 sm:pt-48">
-        <Link href="/ideas" className="link-u text-sm text-ash">← Ideas</Link>
+        <Link href="/hearticles" className="link-u text-sm text-ash">← Hearticles</Link>
         <div className="mt-10 flex flex-wrap gap-4 text-xs font-medium uppercase tracking-[0.14em] text-ash">
           <span className="text-red">{p.category}</span><span>{fmtDate(p.publishAt)}</span><span>{p.readMinutes} min read</span>
           {p.source === "medium" && <span>Medium</span>}
@@ -54,9 +59,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
       <div className="wrap max-w-3xl py-20">
-        <div className="prose-g" dangerouslySetInnerHTML={{ __html: html }} />
-        <div className="mt-16 flex flex-col gap-6 border-t border-eagle/10 pt-10 sm:flex-row sm:items-center sm:justify-between">
-          <Colons label="Godwin Akpan" className="text-red" />
+        <QuoteShare slug={p.slug} title={p.title}>
+          <div className="prose-g" dangerouslySetInnerHTML={{ __html: html }} />
+        </QuoteShare>
+        <p className="mt-8 text-sm text-ash">Highlight any line to share it as a quote card.</p>
+        <div className="mt-10 flex flex-col gap-6 border-t border-eagle/10 pt-10 sm:flex-row sm:items-center sm:justify-between">
+          <HeartButton slug={p.slug} />
           {p.canonicalUrl ? (
             <a href={p.canonicalUrl} target="_blank" rel="noreferrer" className="btn-ghost w-fit">Read on Medium ↗</a>
           ) : (
@@ -77,11 +85,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       {more.length > 0 && (
         <section className="bg-paper py-24">
           <div className="wrap">
-            <p className="display mb-12 text-h3">Next ideas.</p>
+            <p className="display mb-12 text-h3">Keep reading.</p>
             <div className="grid gap-12 md:grid-cols-3 md:gap-6">{more.map((x) => <PostCard key={x.slug} p={x} />)}</div>
           </div>
         </section>
       )}
+      {audio && <AudioBar src={audio} title={p.title} />}
     </article>
   );
 }

@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 import Colons from "@/components/Colons";
+import EventList from "@/components/EventList";
 import Kinetic from "@/components/Kinetic";
 import Reveal from "@/components/Reveal";
 import { initiatives, site } from "@/lib/seed";
@@ -34,7 +35,7 @@ export default async function Initiative({ params }: { params: Promise<{ slug: s
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <section className="wrap grid gap-12 pb-20 pt-32 sm:pt-44 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-6">
-          <p><Link href="/impact" className="link-u text-sm text-ash">← Impact</Link></p>
+          <p><Link href="/impact" className="link-u text-sm text-ash">← The Legacy</Link></p>
           <Colons label={x.since} className="mb-8 mt-10 text-red" />
           <Kinetic words={x.name.split(" ")} className="display text-hero" />
           <Reveal delay={0.5}>
@@ -59,6 +60,22 @@ export default async function Initiative({ params }: { params: Promise<{ slug: s
           )}
         </div>
       </section>
+
+      {/* IBD is the mentorship community: applications start here. */}
+      {x.slug === "ibd" && (
+        <section className="wrap pb-24 sm:pb-36">
+          <div className="flex flex-col justify-between gap-8 rounded-[28px] bg-eagle p-8 text-sky sm:flex-row sm:items-center sm:p-12">
+            <div>
+              <Colons label="Mentorship cohort" className="mb-4 text-red" />
+              <p className="display text-h3">Grow with the community.</p>
+              <p className="mt-2 max-w-md text-sky/60">Tell us where you are and where you want to be. Applications are read personally.</p>
+            </div>
+            <Link href="/contact?intent=Mentorship&about=Ifiok%20Beyond%20Design" className="btn-light w-fit shrink-0">Apply for mentorship <span aria-hidden>→</span></Link>
+          </div>
+        </section>
+      )}
+
+      <EventList initiative={x.slug} />
 
       <section className="bg-obsidian text-sky">
         <div className="wrap py-24 sm:py-36">

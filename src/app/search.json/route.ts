@@ -8,23 +8,23 @@ export const revalidate = 600;
 export async function GET() {
   const [posts, projects] = await Promise.all([getPosts(), getProjects()]);
   const pages: [string, string, string][] = [
-    ["Ideas", "/ideas", "Hearticles essays insights Medium writing"],
-    ["Impact", "/impact", "Purpose over pleasure initiatives community"],
-    ["Work", "/work", "Brand strategy M&E monitoring evaluation case studies"],
-    ["About", "/about", "Story credentials education ventures Mascot Arthouse"],
-    ["Speaking", "/speaking", "Keynotes talks events booking"],
-    ["Contact", "/contact", "Start a conversation advisory speaking press"],
+    ["Hearticles", "/hearticles", "Essays sparks insights Medium writing ideas"],
+    ["The Legacy", "/impact", "Impact purpose over pleasure initiatives community events mentorship"],
+    ["The Craft", "/work", "Brand strategy M&E monitoring evaluation case studies"],
+    ["The Man", "/about", "About story credentials education ventures Mascot Arthouse Ecohaven CV"],
+    ["The Stage", "/stage", "Speaking keynotes talks booking press kit coverage"],
+    ["Disrupt", "/contact", "Contact start a conversation advisory speaking press email"],
     ["The book", "/book", "Book chapter read buy"],
-    ["Press", "/press", "Press kit portraits media interviews"],
+    ["Press", "/stage#press", "Press kit portraits media interviews"],
     ["Newsletter", "/newsletter", "Subscribe email"],
   ];
   const items = [
     ...pages.map(([title, href, text]) => ({ type: "Page", title, href, text })),
-    ...posts.map((p) => ({ type: "Hearticle", title: p.title, href: `/ideas/${p.slug}`, text: `${p.excerpt} ${p.category} ${p.tags.join(" ")}` })),
+    ...posts.map((p) => ({ type: "Hearticle", title: p.title, href: `/hearticles/${p.slug}`, text: `${p.excerpt} ${p.category} ${p.tags.join(" ")}` })),
     ...initiatives.map((i) => ({ type: "Impact", title: i.name, href: `/impact/${i.slug}`, text: `${i.short} ${i.line}` })),
     ...practices.map((p) => ({ type: "Practice", title: p.title, href: `/work?d=${encodeURIComponent(p.key)}`, text: `${p.line} ${p.includes.join(" ")}` })),
     ...projects.map((p) => ({ type: "Work", title: p.title, href: `/work/${p.slug}`, text: `${p.client} ${p.summary}` })),
-    ...topics.map((t) => ({ type: "Talk", title: t.title, href: "/speaking", text: t.line })),
+    ...topics.map((t) => ({ type: "Talk", title: t.title, href: "/stage", text: t.line })),
     ...companies.map((c) => ({ type: "Venture", title: c.name, href: "/about#ventures", text: c.line })),
     { type: "Book", title: book.title, href: "/book", text: book.promise },
   ];

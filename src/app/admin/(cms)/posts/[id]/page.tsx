@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/db";
 import { CATEGORIES } from "@/lib/seed";
+import { getAudio } from "@/lib/engage";
 import { deletePost, savePost } from "../../../actions";
 import Editor from "./Editor";
 import { Card, Saved, Title, input, label } from "../../ui";
@@ -13,9 +14,10 @@ export default async function EditPost({ params, searchParams }: { params: Promi
   const isNew = id === "new";
   const p = !isNew && db ? (await db.select().from(schema.posts).where(eq(schema.posts.id, Number(id))))[0] : undefined;
   if (!isNew && !p) notFound();
+  const audio = p ? await getAudio(p.slug) : "";
   return (
     <>
-      <Title action={p && p.status !== "draft" ? <a href={`/ideas/${p.slug}`} target="_blank" className="btn-ghost">View ↗</a> : null}>{isNew ? "New insight" : "Edit insight"}</Title>
+      <Title action={p && p.status !== "draft" ? <a href={`/hearticles/${p.slug}`} target="_blank" className="btn-ghost">View ↗</a> : null}>{isNew ? "New insight" : "Edit insight"}</Title>
       <Saved show={saved} />
       <form action={savePost} className="grid gap-6 xl:grid-cols-[1fr_320px]">
         <input type="hidden" name="id" value={p?.id ?? ""} />
@@ -58,6 +60,13 @@ export default async function EditPost({ params, searchParams }: { params: Promi
               <input type="file" name="coverFile" accept="image/*,video/*" className="w-full text-sm" />
             </div>
           </Card>
+          <Card className="space-y-3">
+            <label className={label}>Audio narration (optional)</label>
+            <p className="text-xs text-ash">Adds a Listen bar to this Hearticle. Upload an MP3 or M4A, or paste a link. Clear the link to remove it.</p>
+            <input name="audioUrl" defaultValue={audio} placeholder="https://… or leave empty" className={input} />
+            <input type="file" name="audioFile" accept="audio/mpeg,audio/mp4,audio/x-m4a,audio/*" className="w-full text-sm" />
+          </Card>
+          <p className="px-1 text-xs text-ash">Choose the category <b>Sparks</b> for a short thought (280 characters or less). It shows as a quote card in the Sparks stream.</p>
         </div>
       </form>
       {p && (

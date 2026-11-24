@@ -52,7 +52,7 @@ export default async function Home() {
       {/* Proof: plain facts only */}
       <section className="wrap grid gap-12 py-28 sm:py-40 lg:grid-cols-12">
         <Reveal className="lg:col-span-5">
-          <Colons label="Since 2004" className="mb-6 text-red" />
+          <Colons label="The Man · Since 2004" className="mb-6 text-red" />
           <h2 className="display text-h2">Brands. Systems.<br />People.</h2>
         </Reveal>
         <div className="grid grid-cols-2 gap-x-6 gap-y-14 lg:col-span-6 lg:col-start-7">
@@ -70,8 +70,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* The ::: scroll stage. Each word opens its door: Head → Ideas, Heart → Impact, Hand → Work. */}
-      <StickyStory beats={pillars.map((p) => ({ ...p, img: m[p.key], href: doors[p.key as keyof typeof doors], door: { head: "Ideas", heart: "Impact", hand: "Work" }[p.key] }))} />
+      {/* The ::: scroll stage. Each word opens its door: Head → Hearticles, Heart → The Legacy, Hand → The Craft. */}
+      <StickyStory beats={pillars.map((p) => ({ ...p, img: m[p.key], href: doors[p.key as keyof typeof doors], door: { head: "Hearticles", heart: "The Legacy", hand: "The Craft" }[p.key] }))} />
 
       <Showcase title="Where the work lives." cards={ventures} />
 
@@ -84,7 +84,7 @@ export default async function Home() {
             <Colons label="Latest Hearticles" className="mb-5 text-red" />
             <h2 className="display text-h2">Ideas.</h2>
           </Reveal>
-          <Link href="/ideas" className="link-u text-sm font-semibold">All ideas</Link>
+          <Link href="/hearticles" className="link-u text-sm font-semibold">All ideas</Link>
         </div>
         <div className="grid gap-12 md:grid-cols-3 md:gap-6">
           {posts.slice(0, 3).map((p, i) => (

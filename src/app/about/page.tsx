@@ -7,7 +7,7 @@ import Parallax from "@/components/Parallax";
 import Reveal from "@/components/Reveal";
 import Timeline from "@/components/Timeline";
 import { getMedia } from "@/lib/content";
-import { boards, companies, roles, timeline } from "@/lib/seed";
+import { boards, companies, roles, site, timeline } from "@/lib/seed";
 
 export const metadata: Metadata = {
   title: "About",
@@ -22,8 +22,13 @@ export default async function About() {
     <>
       <section className="wrap grid gap-12 pb-20 pt-32 sm:pt-44 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-6">
-          <Colons label="About" className="mb-8 text-red" />
+          <Colons label="01 · The Man · About" className="mb-8 text-red" />
           <Kinetic words={["The", "man.", "The", "mandate.", "The", "method."]} className="display text-hero" />
+          {site.cvUrl && (
+            <Reveal delay={0.6}>
+              <a href={site.cvUrl} target="_blank" rel="noreferrer" className="btn-ghost mt-10 w-fit">Download profile &amp; CV <span aria-hidden>↓</span></a>
+            </Reveal>
+          )}
         </div>
         <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-eagle lg:col-span-5 lg:col-start-8">
           {/* TODO: Replace with Google Drive asset -> "Official Portrait" (swap in /admin → Media → portrait) */}
@@ -75,23 +80,25 @@ export default async function About() {
         <Colons label="Ventures" className="mb-6 text-red" />
         <h2 className="display text-h2">What he built.</h2>
         <div className="mt-12 grid gap-4 sm:grid-cols-2">
-          {companies.map((c) => {
-            const inner = (
-              <>
-                <div className="flex items-start justify-between">
-                  <span className="eyebrow opacity-70">{c.since}</span>
-                  <Colons w={36} className="text-red" />
-                </div>
-                <div>
-                  <h3 className="display text-h2">{c.name}</h3>
-                  <p className="mt-3 text-lg opacity-75">{c.line}</p>
-                  <p className="mt-6 text-sm opacity-60">{c.role}</p>
-                </div>
-              </>
-            );
-            const cls = "flex min-h-[340px] flex-col justify-between rounded-[28px] bg-eagle p-8 text-sky sm:p-10";
-            return c.url ? <a key={c.name} href={c.url} target="_blank" rel="noreferrer" className={cls}>{inner}</a> : <div key={c.name} className={cls}>{inner}</div>;
-          })}
+          {companies.map((c, i) => (
+            <article key={c.name} className={`flex min-h-[340px] flex-col justify-between rounded-[28px] p-8 sm:p-10 ${i % 2 ? "bg-paper text-eagle" : "bg-eagle text-sky"}`}>
+              <div className="flex items-start justify-between">
+                <span className="eyebrow opacity-70">{c.since}</span>
+                <Colons w={36} className="text-red" />
+              </div>
+              <div>
+                <h3 className="display text-h2">{c.name}</h3>
+                <p className="mt-3 text-lg opacity-75">{c.line}</p>
+                <p className="mt-6 text-sm opacity-60">{c.role}</p>
+                {(c.hire || c.url) && (
+                  <div className="mt-8 flex flex-wrap items-center gap-6 text-sm font-semibold">
+                    {c.hire && <Link href={c.hire} className={i % 2 ? "btn-dark" : "btn-light"}>Work with {c.name} <span aria-hidden>→</span></Link>}
+                    {c.url && <a href={c.url} target="_blank" rel="noreferrer" className="link-u">Visit ↗</a>}
+                  </div>
+                )}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -118,7 +125,7 @@ export default async function About() {
         <Kinetic as="h2" words={["Purpose", "over", "pleasure."]} className="display text-mega" accentLast />
         <div className="flex flex-wrap items-center gap-6">
           <Link href="/contact" className="btn-dark">Start a conversation <span aria-hidden>→</span></Link>
-          <Link href="/press" className="link-u text-sm font-semibold">Press &amp; media kit</Link>
+          <Link href="/stage#press" className="link-u text-sm font-semibold">Press &amp; media kit</Link>
         </div>
       </section>
     </>

@@ -10,6 +10,7 @@
     "db:seed": "tsx scripts/seed.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.13.0",
     "@neondatabase/serverless": "^1.2.1",
     "@netlify/blobs": "^11.1.9",
     "drizzle-orm": "^0.45.4",

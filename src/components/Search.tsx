@@ -13,7 +13,17 @@ export default function Search() {
   const [q, setQ] = useState("");
   const [items, setItems] = useState<Item[]>([]);
   const [sel, setSel] = useState(0);
+  const [ask, setAsk] = useState<{ state: "idle" | "asking" | "done"; answer: string; sources: { title: string; href: string }[]; found: boolean }>({ state: "idle", answer: "", sources: [], found: false });
   const input = useRef<HTMLInputElement>(null);
+
+  /** Zero dead ends: a search with no match becomes a question to the archive. */
+  async function askArchive() {
+    if (q.trim().length < 3) return;
+    setAsk({ state: "asking", answer: "", sources: [], found: false });
+    const r = await fetch("/api/ask", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ q }) }).catch(() => null);
+    const d = await r?.json().catch(() => null);
+    setAsk({ state: "done", answer: d?.answer || "", sources: d?.sources || [], found: !!d?.found });
+  }
 
   useEffect(() => {
     const on = (e: KeyboardEvent) => {
@@ -28,7 +38,7 @@ export default function Search() {
 
   useEffect(() => {
     if (!open) return;
-    setQ(""); setSel(0);
+    setQ(""); setSel(0); setAsk({ state: "idle", answer: "", sources: [], found: false });
     setTimeout(() => input.current?.focus(), 30);
     if (!items.length) fetch("/search.json").then((r) => r.json()).then(setItems).catch(() => {});
     const l = (window as unknown as { lenis?: { stop(): void; start(): void } }).lenis;
@@ -70,13 +80,13 @@ export default function Search() {
               <input
                 ref={input}
                 value={q}
-                onChange={(e) => { setQ(e.target.value); setSel(0); }}
+                onChange={(e) => { setQ(e.target.value); setSel(0); if (ask.state !== "idle") setAsk({ state: "idle", answer: "", sources: [], found: false }); }}
                 onKeyDown={(e) => {
                   if (e.key === "ArrowDown") { e.preventDefault(); setSel((s) => Math.min(s + 1, results.length - 1)); }
                   if (e.key === "ArrowUp") { e.preventDefault(); setSel((s) => Math.max(s - 1, 0)); }
-                  if (e.key === "Enter" && results[sel]) go(results[sel].href);
+                  if (e.key === "Enter") { if (results[sel]) go(results[sel].href); else askArchive(); }
                 }}
-                placeholder="Search ideas, impact and work"
+                placeholder="Search, or ask a question"
                 aria-label="Search"
                 className="display w-full border-b border-eagle/20 bg-transparent py-4 text-[clamp(1.6rem,4vw,2.4rem)] outline-none placeholder:text-ash/60 focus:border-red"
               />
@@ -90,10 +100,34 @@ export default function Search() {
                   </li>
                 ))}
               </ul>
-              {q && !results.length && (
-                <p className="py-8 text-lg text-ash">
-                  Nothing in the archive yet. <Link href="/contact" onClick={() => setOpen(false)} className="link-u text-eagle">Ask Godwin directly</Link>
-                </p>
+              {q.trim().length >= 3 && ask.state === "idle" && (
+                <button onClick={askArchive} className="mt-6 flex w-full items-center justify-between gap-4 rounded-2xl bg-eagle px-5 py-4 text-left text-sky transition-colors hover:bg-red">
+                  <span><span className="eyebrow mr-3 text-red">Ask the archive</span>&ldquo;{q}&rdquo;</span>
+                  <span className="text-sm text-sky/60">{results.length ? "Ask instead" : "Enter"} ↵</span>
+                </button>
+              )}
+              {ask.state === "asking" && <p className="mt-6 animate-pulse text-lg text-ash">Reading Godwin&apos;s published work…</p>}
+              {ask.state === "done" && (
+                <div className="mt-6 rounded-2xl bg-paper p-6" aria-live="polite">
+                  <p className="eyebrow mb-3 text-red">From the archive</p>
+                  {ask.answer ? (
+                    <p className="text-lg leading-relaxed">{ask.answer}</p>
+                  ) : (
+                    <p className="text-lg text-ash">{ask.found ? "These pages are the closest match in Godwin's published work:" : "Godwin hasn't written about that yet."}</p>
+                  )}
+                  {ask.sources.length > 0 && (
+                    <ul className="mt-4 space-y-1 text-sm">
+                      {ask.sources.map((s) => (
+                        <li key={s.href}>
+                          {s.href.startsWith("http") ? <a href={s.href} target="_blank" rel="noreferrer" className="link-u">{s.title} ↗</a> : <Link href={s.href} onClick={() => setOpen(false)} className="link-u">{s.title} →</Link>}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <p className="mt-5 border-t border-eagle/10 pt-4 text-sm text-ash">
+                    For your own situation, <Link href="/contact" onClick={() => setOpen(false)} className="link-u font-semibold text-eagle">start a conversation</Link>. Answers only quote what Godwin has published.
+                  </p>
+                </div>
               )}
               <p className="mt-8 text-sm text-ash">Ctrl or Cmd + K opens this anywhere. Esc closes it.</p>
             </div>

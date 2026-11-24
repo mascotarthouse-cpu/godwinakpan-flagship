@@ -9,6 +9,7 @@ import { syncMedium } from "@/lib/medium-sync";
 import { saveUpload } from "@/lib/storage";
 import { getSettings } from "@/lib/content";
 import { setupDatabase } from "@/db/setup";
+import { setAudio } from "@/lib/engage";
 
 async function guard() {
   const ok = await verify((await cookies()).get(COOKIE)?.value);
@@ -16,7 +17,7 @@ async function guard() {
   if (!db) throw new Error("No database connected. Add DATABASE_URL in Netlify.");
   return db;
 }
-const refresh = () => ["/", "/ideas", "/impact", "/work", "/about", "/speaking", "/press", "/contact"].forEach((p) => revalidatePath(p));
+const refresh = () => ["/", "/hearticles", "/impact", "/work", "/about", "/stage", "/contact"].forEach((p) => revalidatePath(p));
 const str = (f: FormData, k: string) => String(f.get(k) ?? "").trim();
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
 
@@ -63,8 +64,9 @@ export async function savePost(f: FormData) {
   let newId = id;
   if (id) await d.update(schema.posts).set(values).where(eq(schema.posts.id, id));
   else newId = (await d.insert(schema.posts).values(values).returning({ id: schema.posts.id }))[0].id;
+  await setAudio(values.slug, await maybeUpload(f, "audioFile", str(f, "audioUrl")));
   refresh();
-  revalidatePath(`/ideas/${values.slug}`);
+  revalidatePath(`/hearticles/${values.slug}`);
   redirect(`/admin/posts/${newId}?saved=1`);
 }
 

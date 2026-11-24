@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Colons from "@/components/Colons";
+import EventList from "@/components/EventList";
 import Kinetic from "@/components/Kinetic";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
@@ -18,7 +19,7 @@ const accents = ["text-red", "text-flight", "text-growth"];
 export default function Impact() {
   return (
     <>
-      <PageHero eyebrow="Heart · Purpose over pleasure" words={["Build", "people.", "Not", "just", "brands."]} />
+      <PageHero eyebrow="05 · The Legacy · Impact" words={["Build", "people.", "Not", "just", "brands."]} />
       {initiatives.map((x, i) => (
         <section key={x.slug} id={x.slug} className={`scroll-mt-20 ${i % 2 ? "bg-sky" : "bg-obsidian text-sky"}`}>
           <div className="wrap grid items-center gap-10 py-24 sm:py-36 lg:grid-cols-12">
@@ -42,6 +43,7 @@ export default function Impact() {
           </div>
         </section>
       ))}
+      <EventList dark />
       <section className="wrap flex flex-col items-start gap-8 py-28 sm:py-40">
         <Colons label="Get involved" className="text-red" />
         <Kinetic as="h2" words={["Partner.", "Sponsor.", "Show", "up."]} className="display text-mega" accentLast />

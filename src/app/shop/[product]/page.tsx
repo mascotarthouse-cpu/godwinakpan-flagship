@@ -47,7 +47,7 @@ export default async function Product({ params }: { params: Promise<{ product: s
               {free ? null : p.buyUrl ? (
                 <a href={p.buyUrl} target="_blank" rel="noreferrer" className="btn-dark">{p.buyLabel}{p.price ? ` · ${p.price}` : ""} <span aria-hidden>→</span></a>
               ) : (
-                <span className="rounded-full border border-dashed border-eagle/25 px-4 py-2 text-sm text-ash">Available soon</span>
+                <Link href={`/shop/checkout?product=${p.slug}`} className="btn-dark">{p.buyLabel}{p.price ? ` · ${p.price}` : ""} <span aria-hidden>→</span></Link>
               )}
               {p.kind === "Books" && <a href="#free" className="link-u text-sm font-semibold">Free first chapter</a>}
             </div>

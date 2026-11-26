@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Colons from "./Colons";
+import SampleTag from "./SampleTag";
 import { voices } from "@/lib/seed";
 
 /** Testimonials for one page. Each voice appears once, where it proves the most. Hidden when there are none. */
@@ -14,8 +15,8 @@ export default function Voices({ page }: { page: (typeof voices)[number]["page"]
           <figure key={v.name}>
             <blockquote className="display text-h3 leading-snug">&ldquo;{v.quote}&rdquo;</blockquote>
             <figcaption className="mt-6 flex items-center gap-4">
-              {v.photo && <span className="relative h-12 w-12 overflow-hidden rounded-full bg-paper"><Image src={v.photo} alt="" fill sizes="48px" className="object-cover" /></span>}
-              <span><b>{v.name}</b><br /><span className="text-ash">{v.role}</span></span>
+              {v.photo ? <span className="relative h-12 w-12 overflow-hidden rounded-full bg-paper"><Image src={v.photo} alt="" fill sizes="48px" className="object-cover" /></span> : <span className="flex h-12 w-12 items-center justify-center rounded-full bg-paper text-sm font-semibold text-ash">{v.name[0]}</span>}
+              <span><b>{v.name}</b> {v.sample && <SampleTag className="ml-1" />}<br /><span className="text-ash">{v.role}</span></span>
             </figcaption>
           </figure>
         ))}

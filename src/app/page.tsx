@@ -7,6 +7,7 @@ import Parallax from "@/components/Parallax";
 import PostCard from "@/components/PostCard";
 import Reveal from "@/components/Reveal";
 import SignupForm from "@/components/SignupForm";
+import SampleTag from "@/components/SampleTag";
 import Ticker from "@/components/Ticker";
 import { getMedia, getPosts, getProjects, getSettings } from "@/lib/content";
 import { impactNumbers, initiatives, institutions, offers, thoughts } from "@/lib/seed";
@@ -129,7 +130,7 @@ export default async function Home() {
           </Link>
           <Reveal className="lg:col-span-5 lg:col-start-8">
             {impactNumbers[0] && (
-              <p className="mb-8"><span className="display block text-[clamp(3rem,6vw,5rem)] leading-none">{impactNumbers[0].value}</span><span className="text-ash">{impactNumbers[0].label} · as of {impactNumbers[0].asOf}</span></p>
+              <p className="mb-8"><span className="display block text-[clamp(3rem,6vw,5rem)] leading-none">{impactNumbers[0].value}</span><span className="text-ash">{impactNumbers[0].label} · as of {impactNumbers[0].asOf}</span> {impactNumbers[0].sample && <SampleTag className="ml-1" />}</p>
             )}
             <p className="eyebrow text-ash">{cause.since}</p>
             <h3 className="display mt-3 text-h3">{cause.name}</h3>

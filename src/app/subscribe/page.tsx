@@ -18,9 +18,13 @@ export default async function Subscribe() {
       <PageHero eyebrow="Subscribe" words={["Get", "the", "next", "one", "first."]} line="New Hearticles and Deep Thoughts, by email. Two minutes to read. No noise." />
       <section className="wrap pb-28 sm:pb-40">
         <SignupForm intent="Newsletter" />
-        {s.whatsappChannel && (
-          <p className="mt-8 text-lg">Prefer WhatsApp? <a href={s.whatsappChannel} target="_blank" rel="noreferrer" className="link-u font-semibold">Follow the WhatsApp Channel</a></p>
-        )}
+        <div className="mt-14 flex max-w-lg flex-col gap-5 rounded-[28px] bg-eagle p-8 text-sky">
+          <p className="eyebrow text-sky/60">Prefer WhatsApp?</p>
+          <p className="display text-h3">Get each new Hearticle on WhatsApp.</p>
+          <a href={s.whatsappChannel || `${s.whatsapp}?text=${encodeURIComponent("Please add me to Hearticles updates.")}`} target="_blank" rel="noreferrer" className="btn-light w-fit">
+            {s.whatsappChannel ? "Follow the WhatsApp Channel" : "Join on WhatsApp"} <span aria-hidden>→</span>
+          </a>
+        </div>
         <p className="mt-10 text-ash">Want to see what you&apos;d get? <Link href="/hearticles" className="link-u text-eagle">Read the latest Hearticles</Link>.</p>
       </section>
     </>

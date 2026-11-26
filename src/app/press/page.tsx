@@ -2,6 +2,9 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Colons from "@/components/Colons";
 import PageHero from "@/components/PageHero";
+import { fmtDate } from "@/components/PostCard";
+import SampleTag from "@/components/SampleTag";
+import { releases } from "@/lib/seed";
 import { getMedia, getSettings } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -38,6 +41,20 @@ export default async function Press() {
         </div>
       </section>
 
+      <section className="wrap pb-24 sm:pb-36">
+        <Colons label="Press releases" className="mb-8 text-red" />
+        <ul className="border-t border-eagle/10">
+          {releases.map((r) => (
+            <li key={r.slug}>
+              <Link href={`/press/${r.slug}`} className="group grid gap-2 border-b border-eagle/10 py-7 sm:grid-cols-12 sm:items-baseline">
+                <span className="eyebrow text-ash sm:col-span-3">{fmtDate(r.date)}</span>
+                <span className="display text-h3 transition-transform duration-700 ease-expo group-hover:translate-x-2 sm:col-span-9">{r.title} {r.sample && <SampleTag className="ml-1" />}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section className="bg-obsidian text-sky">
         <div className="wrap grid gap-10 py-24 sm:py-36 lg:grid-cols-12">
           <div className="lg:col-span-5">
@@ -45,10 +62,17 @@ export default async function Press() {
             <h2 className="display text-h2">Interviews & appearances.</h2>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
-            {/* TODO: Add podcast and media appearances when available */}
-            <p className="text-xl text-sky/60">Interviews and press appearances will appear here. For interviews, reach the team directly.</p>
+            {/* TODO: Replace the sample coverage with real interviews and features */}
+            <ul className="border-t border-sky/10">
+              {[["Interview", "On building brands that breathe", "Outlet name"], ["Feature", "Rebranding Nigeria: a strategist's view", "Outlet name"], ["Podcast guest", "Purpose over pleasure in leadership", "Show name"]].map(([k, t, o]) => (
+                <li key={t} className="grid gap-1 border-b border-sky/10 py-5 sm:grid-cols-4">
+                  <span className="eyebrow text-sky/50">{k}</span>
+                  <span className="sm:col-span-3"><b>{t}</b> <span className="text-sky/60">· {o}</span> <SampleTag className="ml-1" /></span>
+                </li>
+              ))}
+            </ul>
             <div className="mt-8 flex flex-wrap items-center gap-6">
-              <Link href="/contact?intent=Media%2FPress" className="btn-light">Press enquiries <span aria-hidden>→</span></Link>
+              <Link href="/contact?intent=Press" className="btn-light">Press enquiries <span aria-hidden>→</span></Link>
               <a href={`mailto:${s.email}`} className="link-u break-all text-sky/80">{s.email}</a>
             </div>
           </div>

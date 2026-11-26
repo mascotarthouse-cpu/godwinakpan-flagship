@@ -40,19 +40,19 @@ export const site = {
   mantraWords: ["Do.", "Disrupt.", "Dominate.", "Win!™"],
   philosophy: "Purpose over pleasure.",
   descriptor: "Disruptive Brand Architect",
-  /** Home hero line. Open decision: or "I build brands that breathe". */
-  heroLine: "I build brands to build lives.",
+  /** Home hero line. */
+  heroLine: "I build brands that breathe. Brands that breathe build lives.",
   description:
-    "Barr. Godwin Akpan is a Disruptive Brand Architect and founder of Mascot Arthouse. He builds brands to build lives. Do. Disrupt. Dominate. Win!™",
+    "Barr. Godwin Akpan is a Disruptive Brand Architect and founder of Mascot Arthouse. He builds brands that breathe. Do. Disrupt. Dominate. Win!™",
   email: "godwin-akpan@outlook.com",
   phone: "+234 803 639 3737",
   location: "Uyo, Nigeria",
   medium: "thegodwinakpan",
   reelUrl: "",
-  whatsapp: "", // e.g. https://wa.me/2348036393737 — shown on Let's talk when set
-  whatsappChannel: "", // WhatsApp Channel link — shown on Subscribe when set
-  bookingUrl: "", // Calendly or similar — shown on Let's talk when set
-  resumeUrl: "", // profile or resume PDF — shown on Story when set
+  whatsapp: "https://wa.me/2348036393737", // WhatsApp chat on Let's talk
+  whatsappChannel: "", // WhatsApp Channel link for Subscribe. Until set, Subscribe offers a WhatsApp message instead.
+  bookingUrl: "", // Calendly or similar. Until set, Let's talk shows its own call-request calendar.
+  resumeUrl: "https://drive.google.com/drive/folders/1U--sGhvPAWdS3XLlbkkv9V9lZit_jcrd", // TODO: point to a profile PDF
   replyTime: "two working days", // TODO: paste a YouTube or Vimeo link to the keynote reel in /admin → Settings
   socials: [
     { label: "Instagram", href: "https://instagram.com/thegodwinakpan" },
@@ -138,7 +138,7 @@ export const intentPrompts: Record<string, string> = {
   Press: "Outlet, deadline and what the piece is about",
 };
 /** Not shown in the contact picker; used by newsletter and book sign-ups so they land in /admin → Inquiries. */
-export const signupIntents = ["Newsletter", "Book chapter", "Mentorship application", "Free download"] as const;
+export const signupIntents = ["Newsletter", "Book chapter", "Mentorship application", "Free download", "Order", "Call request"] as const;
 
 /* ---------- Final sitemap: Story · Work · Impact · Hearticles, Let's talk always in reach ---------- */
 
@@ -174,15 +174,61 @@ export const offers = [
 /** Godwin's companies, shown on Work. TODO: add a one-line description and link for Brand Myspace and Ecohaven. */
 export const companies = [
   { name: "Mascot Arthouse", since: "Since 2004", role: "Founder & Chief Creative Officer", line: "Brand strategy and design studio.", url: "" },
-  { name: "Brand Myspace", since: "", role: "", line: "", url: "" },
-  { name: "Ecohaven", since: "", role: "", line: "", url: "" },
+  { name: "Brand Myspace", since: "Sample", role: "", line: "Venture by Godwin Akpan. Add its one-line description.", url: "" },
+  { name: "Ecohaven", since: "Sample", role: "", line: "Venture by Godwin Akpan. Add its one-line description.", url: "" },
 ];
 
-/** Verified impact numbers for /impact, each with an "as of" date. Empty until verified. */
-export const impactNumbers: { value: string; label: string; asOf: string }[] = [];
+/** Impact numbers for /impact, each with an "as of" date. `sample: true` shows a Sample tag until real, verified figures replace them. */
+export const impactNumbers: { value: string; label: string; asOf: string; sample?: boolean }[] = [
+  { value: "1,000+", label: "creatives mentored", asOf: "Nov 2026", sample: true },
+  { value: "10", label: "editions of THE SHIFT", asOf: "Nov 2026", sample: true },
+  { value: "5,000+", label: "young people reached", asOf: "Nov 2026", sample: true },
+  { value: "20+", label: "communities served", asOf: "Nov 2026", sample: true },
+];
 
-/** Testimonials. Each one is shown once, on the page where it proves the most. Empty until collected. */
-export const voices: { quote: string; name: string; role: string; photo: string; page: "story" | "work" | "speaking" | "impact" }[] = [];
+/** Testimonials. Each one is shown once, on the page where it proves the most. Replace the samples with real ones (full name, role, photo). */
+export const voices: { quote: string; name: string; role: string; photo: string; page: "story" | "work" | "speaking" | "impact"; sample?: boolean }[] = [
+  { quote: "Godwin saw the brand we could become before we did, then built the system to get us there.", name: "Client name", role: "Founder, Company", photo: "", page: "work", sample: true },
+  { quote: "Clear, bold and practical. Our team still uses the playbook every week.", name: "Client name", role: "Director, Organisation", photo: "", page: "work", sample: true },
+  { quote: "He didn't just speak. He moved the room to act.", name: "Organiser name", role: "Event, City", photo: "", page: "speaking", sample: true },
+  { quote: "A mentor who gives his time freely and expects excellence back.", name: "Mentee name", role: "Designer, Ifiok Beyond Design", photo: "", page: "impact", sample: true },
+  { quote: "Purpose over pleasure isn't a slogan for him. It's how he works.", name: "Colleague name", role: "Role, Organisation", photo: "", page: "story", sample: true },
+];
+
+/** Podcast. Sample episodes until real ones are added (audioUrl takes an MP3 link). */
+export const podcast = {
+  name: "The Hearticles Podcast",
+  line: "Short conversations on brands that breathe, leadership and building lives.",
+  sample: true,
+  platforms: [["Spotify", ""], ["Apple Podcasts", ""], ["YouTube", ""]] as [string, string][],
+};
+export const episodes: { slug: string; n: number; title: string; summary: string; minutes: number; audioUrl: string; notes: string; sample?: boolean }[] = [
+  { slug: "brands-that-breathe", n: 5, title: "Brands that breathe", summary: "What makes a brand feel alive, and why it builds lives.", minutes: 18, audioUrl: "", notes: "Sample show notes. Replace with the real episode's notes and transcript.", sample: true },
+  { slug: "rebranding-nigeria", n: 4, title: "Rebranding Nigeria", summary: "What the next decade of African brands must get right.", minutes: 24, audioUrl: "", notes: "Sample show notes.", sample: true },
+  { slug: "brands-are-built-in-the-gaps", n: 3, title: "Brands are built in the gaps", summary: "Trust is won between the big moments.", minutes: 15, audioUrl: "", notes: "Sample show notes.", sample: true },
+  { slug: "purpose-over-pleasure", n: 2, title: "Purpose over pleasure", summary: "Leadership that outlasts the applause.", minutes: 21, audioUrl: "", notes: "Sample show notes.", sample: true },
+  { slug: "do-disrupt-dominate-win", n: 1, title: "Do. Disrupt. Dominate. Win!", summary: "How bold brands are really built.", minutes: 20, audioUrl: "", notes: "Sample show notes.", sample: true },
+];
+
+/** Press releases for /press/[slug]. */
+export const releases: { slug: string; date: string; title: string; body: string; sample?: boolean }[] = [
+  {
+    slug: "new-website",
+    date: "2026-11-26",
+    title: "Barr. Godwin Akpan launches his new website",
+    body: "Uyo, Nigeria. Barr. Godwin Akpan, Disruptive Brand Architect and founder of Mascot Arthouse, has launched a new website bringing together his story, his work with founders, institutions and nations, his impact initiatives and Hearticles, his writing.\n\nThe site introduces three ways to work with him: Disruptive Brand Transformation; Institutional, Civic and Nation Branding; and Leadership and the Creative Economy.\n\n*Sample release. Edit before sending to the press.*",
+    sample: true,
+  },
+];
+
+/** Sample piece ideas shown on a series page until it holds three real pieces. */
+export const seriesSamples: Record<string, string[]> = {
+  "Disruptive Branding": ["Why your logo is not your brand", "The audit every brand should run once a year", "Naming a company people remember"],
+  "Disruptive Technology": ["What AI changes for brand builders", "Digital trust in African markets", "Tools every creative team should master"],
+  "How Things Work": ["How a rebrand actually happens", "How nation brands are built", "How a brand guide saves money"],
+  Insight: ["What Nigeria's next decade needs from its brands", "Lessons from the FASU Games", "Public spaces that tell a story"],
+  "Deep Thoughts": ["Purpose over pleasure", "Document it", "There is no neutral"],
+};
 
 /** Board and advisory roles for Story. Empty until added. */
 export const boards: { when: string; title: string; detail: string }[] = [];
@@ -209,7 +255,7 @@ export const products: Product[] = [
       "Describe the book in two or three short paragraphs: who it is for, the problem it solves, and what makes it different.\n\n*Placeholder. Replace it in `src/lib/seed.ts` (products).*",
     buyUrl: "",
     buyLabel: "Buy the book",
-    price: "",
+    price: "₦15,000", // Sample price. TODO: confirm
   },
 ];
 /** Kept for older imports. */
@@ -218,7 +264,7 @@ export const book = products[0];
 /** Draft legal copy for /legal. Review before launch, including what Nigeria's Data Protection Act requires. */
 export const legal = {
   privacy:
-    "This site collects only what you send through its forms: your name, email address, organisation and message when you get in touch or apply for mentorship, and your email address when you subscribe or unlock a free download. It is used to reply to you and to send what you asked for, and is never sold.\n\nMessages are stored in the site's database and may be forwarded by email. You can ask for your details to be corrected or deleted at any time by emailing the address on the Let's talk page. We handle personal data in line with Nigeria's Data Protection Act 2023 and, for visitors in Europe, the GDPR.\n\nIf the site later adds a heart counter or an AI assistant, this page will say what they record before they go live.\n\n*Draft. Have it reviewed before launch.*",
+    "This site collects only what you send through its forms: your name, email address, organisation and message when you get in touch or apply for mentorship, and your email address when you subscribe or unlock a free download. It is used to reply to you and to send what you asked for, and is never sold.\n\nMessages are stored in the site's database and may be forwarded by email. You can ask for your details to be corrected or deleted at any time by emailing the address on the Let's talk page. We handle personal data in line with Nigeria's Data Protection Act 2023 and, for visitors in Europe, the GDPR.\n\nHearts you give to Hearticles are remembered only in your own browser. Questions you type into Ask Ifiok are sent to our AI provider to write the answer, are not stored by this site, and should not include personal or sensitive details.\n\n*Draft. Have it reviewed before launch.*",
   terms:
     "Everything on this site, including essays, photographs and the Godwin Akpan identity, belongs to Barr. Godwin Akpan unless stated otherwise. You may share links and short quotes with credit. Ask before reusing anything else.\n\n*Draft. Review before launch.*",
 };

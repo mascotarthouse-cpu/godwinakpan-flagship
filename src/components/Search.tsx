@@ -29,6 +29,37 @@ function rank(items: Item[], q: string) {
     .slice(0, 10);
 }
 
+/** Ifiok's answer, on request. Hidden if the AI isn't switched on. */
+function Ifiok({ q, onDone }: { q: string; onDone?: () => void }) {
+  const [state, setState] = useState<{ asked: string; answer?: string; error?: string; sources?: { title: string; href: string }[]; loading?: boolean; off?: boolean }>({ asked: "" });
+  if (state.off || q.trim().length < 3) return null;
+  async function ask() {
+    setState({ asked: q, loading: true });
+    const r = await fetch("/api/ask", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ q }) }).catch(() => null);
+    if (r?.status === 501) return setState({ asked: q, off: true });
+    const d = await r?.json().catch(() => null);
+    setState({ asked: q, answer: d?.answer, sources: d?.sources, error: d?.error || (!r?.ok ? "Ifiok is busy right now." : undefined) });
+  }
+  const fresh = state.asked === q;
+  return (
+    <div className="mt-6 rounded-[22px] bg-paper p-6">
+      <div className="flex items-center justify-between gap-4">
+        <p className="eyebrow text-red">Ask Ifiok · Godwin&apos;s AI</p>
+        {!(fresh && (state.answer || state.loading)) && <button type="button" onClick={ask} className="btn-dark px-4 py-2 text-sm">Ask Ifiok <span aria-hidden>→</span></button>}
+      </div>
+      {fresh && state.loading && <p className="mt-4 text-ash">Thinking…</p>}
+      {fresh && state.answer && (
+        <>
+          <p className="mt-4 text-lg">{state.answer}</p>
+          {!!state.sources?.length && <p className="mt-3 flex flex-wrap gap-x-4 text-sm">{state.sources.map((s) => <Link key={s.href} href={s.href} onClick={onDone} className="link-u text-ash">{s.title}</Link>)}</p>}
+          <p className="mt-3 text-xs text-ash">AI answers can be wrong. Check the page, or ask Godwin directly.</p>
+        </>
+      )}
+      {fresh && state.error && <p className="mt-4 text-ash">{state.error}</p>}
+    </div>
+  );
+}
+
 /** One Ask field: instant results from the site, then (later) Ifiok's answer, then a human. */
 export function AskPanel({ onDone, autoFocus = true, initial = "" }: { onDone?: () => void; autoFocus?: boolean; initial?: string }) {
   const router = useRouter();
@@ -66,6 +97,7 @@ export function AskPanel({ onDone, autoFocus = true, initial = "" }: { onDone?: 
           </li>
         ))}
       </ul>
+      <Ifiok q={q} onDone={onDone} />
       <p className="py-8 text-lg text-ash">
         {q && !results.length ? "Nothing on the site answers that yet. " : "Didn't find it? "}
         <Link href={talk} onClick={onDone} className="link-u text-eagle">Ask Godwin directly</Link>

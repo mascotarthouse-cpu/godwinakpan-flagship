@@ -4,10 +4,9 @@ import type { Settings } from "@/lib/content";
 
 export default function Footer({ s }: { s: Settings }) {
   const year = new Date().getFullYear();
-  // Podcast joins this list at five episodes.
   const cols = [
     { title: "Explore", links: [["Story", "/story"], ["Work", "/work"], ["Impact", "/impact"], ["Hearticles", "/hearticles"]] },
-    { title: "More", links: [["Speaking", "/speaking"], ["Mentorship", "/mentorship"], ["Press", "/press"], ["Subscribe", "/subscribe"], ["Shop", "/shop"]] },
+    { title: "More", links: [["Speaking", "/speaking"], ["Mentorship", "/mentorship"], ["Podcast", "/podcast"], ["Press", "/press"], ["Subscribe", "/subscribe"], ["Shop", "/shop"]] },
     { title: "Follow", links: s.socials.map((x) => [x.label, x.href]) },
   ];
   return (

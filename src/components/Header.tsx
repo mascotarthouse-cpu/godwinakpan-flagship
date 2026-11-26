@@ -18,6 +18,7 @@ const everything = [{ href: "/", label: "Home" }, ...rooms, { href: "/contact", 
 const more = [
   { href: "/speaking", label: "Speaking" },
   { href: "/mentorship", label: "Mentorship" },
+  { href: "/podcast", label: "Podcast" },
   { href: "/subscribe", label: "Subscribe" },
   { href: "/press", label: "Press" },
   { href: "/shop", label: "Shop" },

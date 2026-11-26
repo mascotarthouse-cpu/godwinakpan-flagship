@@ -7,6 +7,7 @@ import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
 import NextChapter from "@/components/NextChapter";
 import Voices from "@/components/Voices";
+import SampleTag from "@/components/SampleTag";
 import { impactNumbers, initiatives } from "@/lib/seed";
 
 export const metadata: Metadata = {
@@ -27,7 +28,7 @@ export default function Impact() {
             <div key={n.label}>
               <p className="display text-[clamp(3rem,6vw,5.5rem)] leading-none">{n.value}</p>
               <p className="mt-3 text-ash">{n.label}</p>
-              <p className="mt-1 text-xs text-ash/70">As of {n.asOf}</p>
+              <p className="mt-1 text-xs text-ash/70">As of {n.asOf} {n.sample && <SampleTag className="ml-1" />}</p>
             </div>
           ))}
         </section>

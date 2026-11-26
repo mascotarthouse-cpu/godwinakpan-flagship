@@ -7,20 +7,20 @@ import Colons from "./Colons";
 import Magnetic from "./Magnetic";
 import Search from "./Search";
 
-// Head · Heart · Hand, then proof. Four links and one button.
-const primary = [
-  { href: "/ideas", label: "Ideas", motif: "Head" },
-  { href: "/impact", label: "Impact", motif: "Heart" },
-  { href: "/work", label: "Work", motif: "Hand" },
-  { href: "/about", label: "About", motif: "Proof" },
+// Final sitemap: four rooms in story order, Let's talk always in reach. Shop joins at about five products.
+export const rooms = [
+  { href: "/story", label: "Story" },
+  { href: "/work", label: "Work" },
+  { href: "/impact", label: "Impact" },
+  { href: "/hearticles", label: "Hearticles" },
 ];
-const everything = [{ href: "/", label: "Home" }, ...primary, { href: "/speaking", label: "Speaking" }, { href: "/contact", label: "Contact" }];
-const ecosystem = [
-  { href: "/about#ventures", label: "Mascot Arthouse" },
-  { href: "/impact/ibd", label: "Ifiok Beyond Design" },
-  { href: "/impact/the-shift", label: "THE SHIFT" },
-  { href: "/impact/dorathy-akpan-foundation", label: "Dorathy Akpan Foundation" },
-  { href: "/book", label: "The book" },
+const everything = [{ href: "/", label: "Home" }, ...rooms, { href: "/contact", label: "Let's talk" }];
+const more = [
+  { href: "/speaking", label: "Speaking" },
+  { href: "/mentorship", label: "Mentorship" },
+  { href: "/subscribe", label: "Subscribe" },
+  { href: "/press", label: "Press" },
+  { href: "/shop", label: "Shop" },
 ];
 
 export default function Header({ socials }: { socials: { label: string; href: string }[] }) {
@@ -63,8 +63,8 @@ export default function Header({ socials }: { socials: { label: string; href: st
             <span>Godwin Akpan</span>
           </Link>
           <nav className="hidden items-center gap-8 text-sm lg:flex" aria-label="Primary">
-            {primary.map((l) => (
-              <Link key={l.href} href={l.href} title={l.motif} className={`link-u ${path.startsWith(l.href) ? "bg-[length:100%_1px]" : ""}`}>
+            {rooms.map((l) => (
+              <Link key={l.href} href={l.href} className={`link-u ${path.startsWith(l.href) ? "bg-[length:100%_1px]" : ""}`}>
                 {l.label}
               </Link>
             ))}
@@ -74,7 +74,7 @@ export default function Header({ socials }: { socials: { label: string; href: st
             <div className="hidden sm:block">
               <Magnetic>
                 <Link href="/contact" className={open ? "btn-light" : "btn-dark"}>
-                  Start a conversation
+                  Let&apos;s talk
                 </Link>
               </Magnetic>
             </div>
@@ -90,6 +90,13 @@ export default function Header({ socials }: { socials: { label: string; href: st
           </div>
         </div>
       </header>
+
+      {/* Let's talk in thumb reach on phones */}
+      {path !== "/contact" && !open && (
+        <Link href="/contact" className={`btn-dark fixed bottom-4 right-4 z-40 shadow-lg transition-transform duration-500 ease-expo sm:hidden ${scrolled ? "" : "translate-y-24"}`}>
+          Let&apos;s talk
+        </Link>
+      )}
 
       <AnimatePresence>
         {open && (
@@ -115,9 +122,9 @@ export default function Header({ socials }: { socials: { label: string; href: st
               </nav>
               <motion.div className="flex flex-col justify-end gap-12 lg:col-span-5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
                 <div>
-                  <Colons label="Ecosystem" className="mb-5 text-slate" />
+                  <Colons label="More" className="mb-5 text-slate" />
                   <ul className="space-y-2 text-lg">
-                    {ecosystem.map((e) => (
+                    {more.map((e) => (
                       <li key={e.label}><Link href={e.href} className="link-u">{e.label}</Link></li>
                     ))}
                   </ul>
@@ -130,7 +137,7 @@ export default function Header({ socials }: { socials: { label: string; href: st
                     ))}
                   </ul>
                 </div>
-                <Link href="/contact" className="btn-light w-fit sm:hidden">Start a conversation</Link>
+                <Link href="/contact" className="btn-light w-fit sm:hidden">Let&apos;s talk</Link>
               </motion.div>
             </div>
           </motion.div>

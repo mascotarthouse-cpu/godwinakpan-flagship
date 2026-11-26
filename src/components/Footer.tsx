@@ -4,11 +4,11 @@ import type { Settings } from "@/lib/content";
 
 export default function Footer({ s }: { s: Settings }) {
   const year = new Date().getFullYear();
+  // Podcast joins this list at five episodes.
   const cols = [
-    { title: "Head · Ideas", links: [["Hearticles", "/ideas"], ["The book", "/book"], ["Newsletter", "/newsletter"], ["Speaking", "/speaking"]] },
-    { title: "Heart · Impact", links: [["Purpose over pleasure", "/impact"], ["Ifiok Beyond Design", "/impact/ibd"], ["THE SHIFT", "/impact/the-shift"], ["Dorathy Akpan Foundation", "/impact/dorathy-akpan-foundation"]] },
-    { title: "Hand · Work", links: [["Brand strategy", "/work?d=Brand"], ["Monitoring & Evaluation", "/work?d=M%26E"], ["Mascot Arthouse", "/about#ventures"], ["About", "/about"]] },
-    { title: "Connect", links: s.socials.map((x) => [x.label, x.href]) },
+    { title: "Explore", links: [["Story", "/story"], ["Work", "/work"], ["Impact", "/impact"], ["Hearticles", "/hearticles"]] },
+    { title: "More", links: [["Speaking", "/speaking"], ["Mentorship", "/mentorship"], ["Press", "/press"], ["Subscribe", "/subscribe"], ["Shop", "/shop"]] },
+    { title: "Follow", links: s.socials.map((x) => [x.label, x.href]) },
   ];
   return (
     <footer className="bg-obsidian text-sky">
@@ -34,15 +34,15 @@ export default function Footer({ s }: { s: Settings }) {
             </nav>
           ))}
         </div>
-        <div className="mt-12"><Link href="/contact" className="btn-light">Start a conversation</Link></div>
+        <div className="mt-12"><Link href="/contact" className="btn-light">Let&apos;s talk</Link></div>
         <div className="mt-16 flex flex-col justify-between gap-2 text-xs text-sky/40 sm:flex-row">
           <p>© {year} Barr. Godwin Akpan. All rights reserved.</p>
           <p className="flex flex-wrap gap-x-4">
-            <Link href="/press" className="link-u hover:text-sky">Press</Link>
-            <Link href="/legal" className="link-u hover:text-sky">Legal</Link>
+            <Link href="/privacy" className="link-u hover:text-sky">Privacy</Link>
+            <Link href="/terms" className="link-u hover:text-sky">Terms</Link>
             <a href="/rss.xml" className="link-u hover:text-sky">RSS</a>
             <a href="/llms.txt" className="link-u hover:text-sky">llms.txt</a>
-            <span>Head · Heart · Hand</span>
+            
           </p>
         </div>
       </div>

@@ -11,7 +11,7 @@ function ProjectForm({ p }: { p: Row }) {
       <input type="hidden" name="id" value={p.id ?? ""} />
       <div><label className={label}>Title</label><input name="title" defaultValue={p.title} required className={input} /></div>
       <div><label className={label}>Client</label><input name="client" defaultValue={p.client} className={input} /></div>
-      <div><label className={label}>Discipline</label><select name="discipline" defaultValue={p.discipline ?? "Brand"} className={input}><option value="Brand">Brand Strategy & Design</option><option value="M&E">Monitoring & Evaluation</option></select></div>
+      <div><label className={label}>Discipline</label><select name="discipline" defaultValue={p.discipline ?? "Brand"} className={input}><option value="Brand">Brand Strategy & Design</option><option value="M&E">Monitoring & Evaluation (hidden from the public site)</option></select></div>
       <div className="grid grid-cols-2 gap-3"><div><label className={label}>Year</label><input name="year" defaultValue={p.year} className={input} /></div><div><label className={label}>Order</label><input name="order" type="number" defaultValue={p.order ?? 0} className={input} /></div></div>
       <div className="sm:col-span-2"><label className={label}>Summary</label><input name="summary" defaultValue={p.summary} className={input} /></div>
       <div className="sm:col-span-2"><label className={label}>Result</label><input name="result" defaultValue={p.result} className={input} /></div>

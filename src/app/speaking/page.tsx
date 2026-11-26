@@ -5,12 +5,13 @@ import PageHero from "@/components/PageHero";
 import Parallax from "@/components/Parallax";
 import Reel from "@/components/Reel";
 import Reveal from "@/components/Reveal";
+import Voices from "@/components/Voices";
 import { getMedia, getSettings } from "@/lib/content";
 import { topics } from "@/lib/seed";
 
 export const metadata: Metadata = {
-  title: "Speaking",
-  description: "Keynotes by Barr. Godwin Akpan on disruptive strategy, purpose and the future of African brands. Invite Godwin to speak.",
+  title: { absolute: "Book Godwin Akpan to speak" },
+  description: "Keynotes, masterclasses and workshops by Barr. Godwin Akpan on disruptive branding, purpose and the future of African brands.",
   alternates: { canonical: "/speaking" },
 };
 export const revalidate = 300;
@@ -19,7 +20,7 @@ export default async function Speaking() {
   const [s, m] = await Promise.all([getSettings(), getMedia()]);
   return (
     <>
-      <PageHero eyebrow="Hand · Keynotes" words={["Bring", "the", "room", "to", "its", "feet."]} />
+      <PageHero eyebrow="Speaking" words={["Bring", "the", "room", "to", "its", "feet."]} line="Keynotes, masterclasses and workshops for leaders, institutions and creative teams." />
       <section className="wrap grid gap-4 sm:grid-cols-12">
         {/* TODO: Replace with Google Drive asset -> keynote stage photography */}
         <Parallax src={m.speaking.url} alt={m.speaking.alt} className="aspect-[4/5] rounded-[28px] bg-paper sm:col-span-7 sm:aspect-[7/8]" sizes="(min-width:640px) 58vw, 100vw" />
@@ -27,7 +28,7 @@ export default async function Speaking() {
       </section>
 
       <section className="wrap py-24 sm:py-36">
-        <Colons label="Keynote topics" className="mb-10 text-red" />
+        <Colons label="Topics" className="mb-10 text-red" />
         <ul className="border-t border-eagle/10">
           {topics.map((t, i) => (
             <Reveal key={t.title} delay={i * 0.05}>
@@ -39,10 +40,11 @@ export default async function Speaking() {
             </Reveal>
           ))}
         </ul>
-        <Link href="/contact?intent=Speaking%20Invitation" className="btn-dark mt-12">Invite Godwin to speak <span aria-hidden>→</span></Link>
+        <Link href="/contact?intent=Speaking" className="btn-dark mt-12">Invite Godwin to speak <span aria-hidden>→</span></Link>
       </section>
 
       <Reel url={s.reelUrl} poster={m.reel.url} alt={m.reel.alt} />
+      <Voices page="speaking" />
 
       <section className="wrap grid gap-10 py-24 sm:py-36 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7">
@@ -51,7 +53,7 @@ export default async function Speaking() {
         </div>
         <div className="flex flex-wrap items-center gap-6 lg:col-span-5 lg:justify-end">
           <Link href="/press" className="btn-dark">Press kit <span aria-hidden>→</span></Link>
-          <Link href="/contact?intent=Speaking%20Invitation" className="link-u text-sm font-semibold">Invite Godwin to speak</Link>
+          <Link href="/contact?intent=Speaking" className="link-u text-sm font-semibold">Invite Godwin to speak</Link>
         </div>
       </section>
     </>

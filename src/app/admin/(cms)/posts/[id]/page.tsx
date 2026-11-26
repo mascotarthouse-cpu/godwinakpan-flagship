@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/db";
-import { CATEGORIES } from "@/lib/seed";
+import { SERIES } from "@/lib/seed";
 import { deletePost, savePost } from "../../../actions";
 import Editor from "./Editor";
 import { Card, Saved, Title, input, label } from "../../ui";
@@ -15,7 +15,7 @@ export default async function EditPost({ params, searchParams }: { params: Promi
   if (!isNew && !p) notFound();
   return (
     <>
-      <Title action={p && p.status !== "draft" ? <a href={`/ideas/${p.slug}`} target="_blank" className="btn-ghost">View ↗</a> : null}>{isNew ? "New insight" : "Edit insight"}</Title>
+      <Title action={p && p.status !== "draft" ? <a href={`/hearticles/${p.slug}`} target="_blank" className="btn-ghost">View ↗</a> : null}>{isNew ? "New Hearticle" : "Edit Hearticle"}</Title>
       <Saved show={saved} />
       <form action={savePost} className="grid gap-6 xl:grid-cols-[1fr_320px]">
         <input type="hidden" name="id" value={p?.id ?? ""} />
@@ -43,8 +43,8 @@ export default async function EditPost({ params, searchParams }: { params: Promi
           </Card>
           <Card className="space-y-4">
             <div>
-              <label className={label}>Category</label>
-              <select name="category" defaultValue={p?.category} className={input}>{CATEGORIES.map((c) => <option key={c}>{c}</option>)}</select>
+              <label className={label}>Series</label>
+              <select name="category" defaultValue={p?.category} className={input}>{SERIES.map((c) => <option key={c}>{c}</option>)}</select>
             </div>
             <div><label className={label}>Tags (comma separated)</label><input name="tags" defaultValue={p?.tags.join(", ")} className={input} /></div>
             <div><label className={label}>URL slug</label><input name="slug" defaultValue={p?.slug} placeholder="auto from title" className={input} /></div>

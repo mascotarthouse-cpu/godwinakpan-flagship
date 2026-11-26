@@ -36,7 +36,9 @@ export async function getProjects(): Promise<Project[]> {
   await ensureDatabase();
   try {
     const rows = await db.select().from(schema.projects).where(eq(schema.projects.published, true)).orderBy(asc(schema.projects.order));
-    return rows.length ? (rows as unknown as Project[]) : seed.projects;
+    // M&E work stays in /admin but is kept off the public site (final sitemap: resume and proposals only).
+    const pub = (rows as unknown as Project[]).filter((p) => p.discipline !== "M&E");
+    return rows.length ? pub : seed.projects;
   } catch {
     return seed.projects;
   }

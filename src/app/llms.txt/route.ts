@@ -1,5 +1,5 @@
 import { getPosts } from "@/lib/content";
-import { companies, initiatives, practices, site, topics } from "@/lib/seed";
+import { companies, initiatives, offers, site, topics } from "@/lib/seed";
 
 export const revalidate = 3600;
 
@@ -11,18 +11,18 @@ export async function GET() {
 
 > ${site.description}
 
-${site.descriptor}, based in ${site.location}. Philosophy: ${site.philosophy} Brand motif: ::: Head · Heart · Hand.
+${site.descriptor}, based in ${site.location}. ${site.heroLine} Philosophy: ${site.philosophy}
 
 ## Main pages
-- [Ideas](${u}/ideas): Hearticles (essays) and talks
+- [Story](${u}/story): who Godwin is, credentials and education
+- [Work](${u}/work): ${offers.map((o) => o.title).join("; ")}. Ventures: ${companies.map((c) => c.name).join(", ")}
 - [Impact](${u}/impact): ${initiatives.map((i) => i.name).join(", ")}
-- [Work](${u}/work): ${practices.map((p) => p.title).join(" and ")}
-- [About](${u}/about): story, credentials and ventures (${companies.map((c) => c.name).join(", ")})
+- [Hearticles](${u}/hearticles): essays and Deep Thoughts
 - [Speaking](${u}/speaking): keynotes on ${topics.map((t) => t.title).join("; ")}
-- [Contact](${u}/contact)
+- [Let's talk](${u}/contact)
 
 ## Hearticles
-${posts.map((p) => `- [${p.title}](${p.canonicalUrl || `${u}/ideas/${p.slug}`}): ${p.excerpt}`).join("\n")}
+${posts.map((p) => `- [${p.title}](${p.canonicalUrl || `${u}/hearticles/${p.slug}`}): ${p.excerpt}`).join("\n")}
 `;
   return new Response(txt, { headers: { "content-type": "text/plain; charset=utf-8" } });
 }

@@ -6,10 +6,10 @@ const words = (html: string) => html.replace(/<[^>]+>/g, " ").split(/\s+/).filte
 
 function guessCategory(tags: string[]): string {
   const t = tags.join(" ").toLowerCase();
-  if (/(m&e|monitor|evaluat|govern|policy|public)/.test(t)) return "M&E & Governance";
-  if (/(lead|purpose|faith|life)/.test(t)) return "Leadership";
-  if (/(strategy|disrupt|business|innovation)/.test(t)) return "Disruptive Strategy";
-  return CATEGORIES[1];
+  if (/(tech|ai|digital|software|data)/.test(t)) return "Disruptive Technology";
+  if (/(how|explain|works)/.test(t)) return "How Things Work";
+  if (/(news|govern|policy|public|nigeria|africa)/.test(t)) return "Insight";
+  return CATEGORIES[0];
 }
 
 /** Pulls a Medium profile feed and maps it to the site's post shape. */

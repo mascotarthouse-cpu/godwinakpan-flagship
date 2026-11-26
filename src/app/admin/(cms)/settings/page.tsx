@@ -11,11 +11,17 @@ export default async function Settings({ searchParams }: { searchParams: Promise
       <form action={saveSiteSettings} className="grid max-w-3xl gap-6">
         <Card className="grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2"><label className={label}>Keynote reel (YouTube or Vimeo link)</label><input name="reelUrl" defaultValue={s.reelUrl} placeholder="https://youtube.com/watch?v=…" className={input} /></div>
+          <div className="sm:col-span-2"><label className={label}>Home hero line</label><input name="heroLine" defaultValue={s.heroLine} className={input} /></div>
           <div><label className={label}>Descriptor</label><input name="descriptor" defaultValue={s.descriptor} className={input} /></div>
           <div><label className={label}>Philosophy line</label><input name="philosophy" defaultValue={s.philosophy} className={input} /></div>
           <div><label className={label}>Email</label><input name="email" defaultValue={s.email} className={input} /></div>
           <div><label className={label}>Phone</label><input name="phone" defaultValue={s.phone} className={input} /></div>
           <div><label className={label}>Location</label><input name="location" defaultValue={s.location} className={input} /></div>
+          <div><label className={label}>Reply time (Let&apos;s talk)</label><input name="replyTime" defaultValue={s.replyTime} className={input} /></div>
+          <div><label className={label}>WhatsApp chat link</label><input name="whatsapp" defaultValue={s.whatsapp} placeholder="https://wa.me/234…" className={input} /></div>
+          <div><label className={label}>WhatsApp Channel link (Subscribe)</label><input name="whatsappChannel" defaultValue={s.whatsappChannel} className={input} /></div>
+          <div><label className={label}>Booking calendar link</label><input name="bookingUrl" defaultValue={s.bookingUrl} placeholder="https://calendly.com/…" className={input} /></div>
+          <div><label className={label}>Profile or resume PDF link (Story)</label><input name="resumeUrl" defaultValue={s.resumeUrl} className={input} /></div>
         </Card>
         <Card className="grid gap-4 sm:grid-cols-2">
           {s.socials.map((x) => (

@@ -7,6 +7,7 @@ import sanitizeHtml from "sanitize-html";
 import Colons from "@/components/Colons";
 import Kinetic from "@/components/Kinetic";
 import Reveal from "@/components/Reveal";
+import MentorshipForm from "@/components/MentorshipForm";
 import { initiatives, site } from "@/lib/seed";
 
 export function generateStaticParams() {
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const x = initiatives.find((i) => i.slug === slug);
   if (!x) return {};
-  return { title: x.name, description: x.line, alternates: { canonical: `/impact/${x.slug}` } };
+  return { title: { absolute: `${x.name} | Godwin Akpan` }, description: x.line, alternates: { canonical: `/impact/${x.slug}` } };
 }
 
 export default async function Initiative({ params }: { params: Promise<{ slug: string }> }) {
@@ -26,7 +27,9 @@ export default async function Initiative({ params }: { params: Promise<{ slug: s
   if (!x) notFound();
   const others = initiatives.filter((i) => i.slug !== slug);
   const about = x.about ? sanitizeHtml(await marked.parse(x.about)) : "";
-  const ld = { "@context": "https://schema.org", "@type": "Organization", name: x.name, description: x.line, url: `${site.url}/impact/${x.slug}`, founder: { "@type": "Person", name: "Godwin Akpan" } };
+  const org = { "@context": "https://schema.org", "@type": "Organization", name: x.name, description: x.line, url: `${site.url}/impact/${x.slug}`, founder: { "@type": "Person", name: "Godwin Akpan", url: site.url } };
+  const ld = x.slug === "the-shift" ? [org, { "@context": "https://schema.org", "@type": "Event", name: "THE SHIFT", description: x.line, location: { "@type": "Place", name: "Uyo, Nigeria" }, organizer: { "@type": "Person", name: "Godwin Akpan" } }] : org;
+  const isIbd = x.slug === "ibd";
   const cta = `/contact?intent=Partnership&about=${encodeURIComponent(x.name)}`;
 
   return (
@@ -39,7 +42,7 @@ export default async function Initiative({ params }: { params: Promise<{ slug: s
           <Kinetic words={x.name.split(" ")} className="display text-hero" />
           <Reveal delay={0.5}>
             <p className="mt-8 max-w-md text-xl text-ash">{x.line}</p>
-            <Link href={cta} className="btn-dark mt-10">{x.cta} <span aria-hidden>→</span></Link>
+            <Link href={isIbd ? "#apply" : cta} className="btn-dark mt-10">{isIbd ? "Apply for mentorship" : x.cta} <span aria-hidden>→</span></Link>
           </Reveal>
         </div>
         <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-paper lg:col-span-5 lg:col-start-8">
@@ -59,6 +62,19 @@ export default async function Initiative({ params }: { params: Promise<{ slug: s
           )}
         </div>
       </section>
+
+      {isIbd && (
+        <section id="apply" className="scroll-mt-20 bg-paper">
+          <div className="wrap grid gap-10 py-24 sm:py-36 lg:grid-cols-12">
+            <Reveal className="lg:col-span-5">
+              <Colons label="Mentorship" className="mb-6 text-red" />
+              <h2 className="display text-h2">Apply for free creative mentoring.</h2>
+              <p className="mt-4 max-w-md text-xl text-ash">Tell us what you create and where you want to go. We read every application.</p>
+            </Reveal>
+            <div className="lg:col-span-6 lg:col-start-7"><MentorshipForm /></div>
+          </div>
+        </section>
+      )}
 
       <section className="bg-obsidian text-sky">
         <div className="wrap py-24 sm:py-36">

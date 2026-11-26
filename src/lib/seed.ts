@@ -27,7 +27,10 @@ export type Project = {
   image: string;
 };
 
-export const CATEGORIES = ["Disruptive Strategy", "Brand Architecture", "Leadership", "M&E & Governance"] as const;
+/** Hearticles series. A series gets its own hub page (/hearticles/[series]) once it holds five pieces. */
+export const SERIES = ["Disruptive Branding", "Disruptive Technology", "How Things Work", "Insight", "Deep Thoughts"] as const;
+export const CATEGORIES = SERIES;
+export const seriesSlug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 export const site = {
   name: "Godwin Akpan",
@@ -36,14 +39,21 @@ export const site = {
   mantra: "Do. Disrupt. Dominate. Win!™",
   mantraWords: ["Do.", "Disrupt.", "Dominate.", "Win!™"],
   philosophy: "Purpose over pleasure.",
-  descriptor: "Disruptive brand strategist",
+  descriptor: "Disruptive Brand Architect",
+  /** Home hero line. Open decision: or "I build brands that breathe". */
+  heroLine: "I build brands to build lives.",
   description:
-    "Barr. Godwin Akpan is a disruptive brand strategist, M&E consultant and founder of Mascot Arthouse. Do. Disrupt. Dominate. Win!™",
+    "Barr. Godwin Akpan is a Disruptive Brand Architect and founder of Mascot Arthouse. He builds brands to build lives. Do. Disrupt. Dominate. Win!™",
   email: "godwin-akpan@outlook.com",
   phone: "+234 803 639 3737",
   location: "Uyo, Nigeria",
   medium: "thegodwinakpan",
-  reelUrl: "", // TODO: paste a YouTube or Vimeo link to the keynote reel in /admin → Settings
+  reelUrl: "",
+  whatsapp: "", // e.g. https://wa.me/2348036393737 — shown on Let's talk when set
+  whatsappChannel: "", // WhatsApp Channel link — shown on Subscribe when set
+  bookingUrl: "", // Calendly or similar — shown on Let's talk when set
+  resumeUrl: "", // profile or resume PDF — shown on Story when set
+  replyTime: "two working days", // TODO: paste a YouTube or Vimeo link to the keynote reel in /admin → Settings
   socials: [
     { label: "Instagram", href: "https://instagram.com/thegodwinakpan" },
     { label: "LinkedIn", href: "https://linkedin.com/in/thegodwinakpan" },
@@ -74,25 +84,11 @@ export const institutions = [
   "Starcomms",
 ];
 
-export const pillars = [
-  { key: "head", word: "Head", line: "See further than the brief.", sub: "Strategy starts with the real problem." },
-  { key: "heart", word: "Heart", line: "Purpose over pleasure.", sub: "Serve first. The rest follows." },
-  { key: "hand", word: "Hand", line: "Then build it. Boldly.", sub: "Ideas only count when they ship." },
-];
-
-export const ventures = [
-  { title: "Mascot Arthouse", kicker: "Since 2004", line: "Brand strategy and design studio.", href: "/about#ventures", tone: "dark" as const },
-  { title: "Monitoring & Evaluation", kicker: "Public sector", line: "Oversight for infrastructure that has to work.", href: "/work?d=M%26E", tone: "light" as const },
-  { title: "Brand Architecture", kicker: "Advisory", line: "Clear positions for bold institutions.", href: "/contact?intent=Brand%20Advisory", tone: "red" as const },
-];
-
 export const projects: Project[] = [
   // TODO: Replace each image with the project's own photography from Drive.
   { slug: "dalal-agri-resort", title: "Dalal Agri Resort", client: "Dalal Agri Resort, The Gambia", discipline: "Brand", year: "", summary: "A destination brand rooted in land, hospitality and growth.", result: "Identity, positioning and launch system.", image: "" },
   { slug: "fasu-games", title: "11th FASU Games", client: "FASU All Africa University Games", discipline: "Brand", year: "", summary: "A continental sporting event, branded to feel like Africa at its best.", result: "Event identity and visual system.", image: "" },
   { slug: "brandos", title: "BrandOS", client: "Mascot Arthouse", discipline: "Brand", year: "", summary: "An operating system for building brands with discipline.", result: "Framework, tools and training.", image: "" },
-  { slug: "infrastructure-oversight", title: "Infrastructure oversight", client: "Public sector", discipline: "M&E", year: "", summary: "Independent monitoring of critical civil works, from plan to handover.", result: "Add the project, scope and outcome in /admin.", image: "" },
-  { slug: "programme-evaluation", title: "Programme evaluation", client: "Non-profit", discipline: "M&E", year: "", summary: "Measuring what changed, and what it cost to change it.", result: "Add the project, scope and outcome in /admin.", image: "" },
 ];
 
 // `about` is the longer story on each initiative's own page (/impact/[slug]). TODO: write it.
@@ -100,6 +96,7 @@ export const initiatives = [
   { slug: "ibd", name: "Ifiok Beyond Design", short: "IBD", since: "Est. 2016", line: "A global community that mentors and upskills creatives.", cta: "Join the community", image: "/media/seated-floor.webp", about: "" },
   { slug: "the-shift", name: "THE SHIFT", short: "SHIFT", since: "Annual · Uyo", line: "A youth empowerment and leadership symposium.", cta: "Attend or partner", image: "/media/hero-standing.webp", about: "" },
   { slug: "dorathy-akpan-foundation", name: "Dorathy Akpan Foundation", short: "DAF", since: "Executive Director", line: "Charity and community impact, in her name.", cta: "Support the work", image: "/media/seated-stool.webp", about: "" },
+  { slug: "rebrand-nigeria", name: "RebrandNigeria", short: "RebrandNigeria", since: "Nation branding", line: "What the next decade of Nigerian brands must get right.", cta: "Join the conversation", image: "/media/profile-side.webp", about: "" }, // TODO: confirm the one-line description
 ];
 // TODO: Replace initiative images with event and community photos from Drive.
 
@@ -116,8 +113,7 @@ export const timeline = [
 
 export const roles = [
   "Founder & Chief Creative Officer, Mascot Arthouse",
-  "Disruptive Brand Strategist",
-  "Monitoring & Evaluation Consultant",
+  "Disruptive Brand Architect",
   "Founder, Ifiok Beyond Design",
   "Convener, THE SHIFT",
   "Executive Director, Dorathy Akpan Foundation",
@@ -130,50 +126,99 @@ export const topics = [
   { title: "Rebranding Nigeria", line: "What the next decade of African brands must get right." },
 ];
 
-export const intents = ["Brand Advisory", "M&E Consulting", "Speaking Invitation", "Partnership", "Media/Press"] as const;
-/** Not shown in the contact picker; used by newsletter and book sign-ups so they land in /admin → Inquiries. */
-export const signupIntents = ["Newsletter", "Book chapter"] as const;
-
-/* ---------- v3 unified sitemap: Head (Ideas) · Heart (Impact) · Hand (Work) ---------- */
-
-/** The three doors. The sticky philosophy story links each word to its page. */
-export const doors = { head: "/ideas", heart: "/impact", hand: "/work" } as const;
-
-/** Work keeps two practices. Ventures (his own companies) live on About. */
-export const practices = [
-  { key: "Brand", title: "Brand strategy", line: "Clear positions for bold institutions.", includes: ["Brand audits", "Positioning and brand architecture", "Identity systems with Mascot Arthouse"] },
-  { key: "M&E", title: "Monitoring & Evaluation", line: "Oversight for infrastructure and programmes that have to work.", includes: ["Independent monitoring of civil works", "Programme evaluation", "Reporting boards and funders can act on"] },
-];
-
-/** The usual first step into a brand engagement. */
-export const entryOffer = {
-  title: "Start with a brand audit.",
-  line: "Find where your brand builds trust and where it leaks it. Most engagements begin here.",
+/** Let's talk topics, each with its own qualifying prompt. The first three match the offers on Work. */
+export const intents = ["Brand transformation", "Institutional & nation branding", "Leadership & creative economy", "Speaking", "Mentorship", "Partnership", "Press"] as const;
+export const intentPrompts: Record<string, string> = {
+  "Brand transformation": "Your company, where it is now (launching, rebranding or scaling), and your timeline",
+  "Institutional & nation branding": "Your institution, its mandate, and the story you need people to believe",
+  "Leadership & creative economy": "Who it's for, a personal brand session or a masterclass, and when",
+  Speaking: "Event, date, city, audience size and the topic you have in mind",
+  Mentorship: "What you create, where you are now, and what you want to learn",
+  Partnership: "Which initiative, and how you'd like to help",
+  Press: "Outlet, deadline and what the piece is about",
 };
+/** Not shown in the contact picker; used by newsletter and book sign-ups so they land in /admin → Inquiries. */
+export const signupIntents = ["Newsletter", "Book chapter", "Mentorship application", "Free download"] as const;
 
-/** Godwin's own companies, shown on /about#ventures. */
+/* ---------- Final sitemap: Story · Work · Impact · Hearticles, Let's talk always in reach ---------- */
+
+/** Three offers, one per pillar. Each "Start with" opens Let's talk with the offer chosen. Four deliverables at most. */
+export const offers = [
+  {
+    slug: "brand-transformation",
+    title: "Disruptive Brand Transformation",
+    who: "Founders and companies launching, rebranding or ready to scale.",
+    gets: ["Brand strategy blueprint: vision and positioning", "Naming and rebrands", "Visual identity, packaging and product architecture, with an interactive brand guide on BrandOS", "Campaigns, website strategy and creative direction to launch it"],
+    start: "Start with a brand audit",
+    intent: "Brand transformation",
+  },
+  {
+    slug: "nation-branding",
+    title: "Institutional, Civic and Nation Branding",
+    who: "Governments, public institutions, NGOs and organisations with a public mandate.",
+    gets: ["Strategic narrative and nation branding", "Reputation, PR, and corporate and internal communications", "Public-space beautification", "Fundraising strategy, archival documentation and publishing"],
+    start: "Start with a strategic narrative session",
+    intent: "Institutional & nation branding",
+  },
+  {
+    slug: "leadership",
+    title: "Leadership and the Creative Economy",
+    who: "Leaders and public figures, and organisations growing creative teams.",
+    gets: ["Personal branding for leaders", "Masterclasses and workshops"],
+    start: "Start with a personal brand session",
+    intent: "Leadership & creative economy",
+    also: [["Free creative mentoring", "/impact/ibd"], ["Youth leadership: THE SHIFT", "/impact/the-shift"], ["The Brand Bible", "/shop/brand-bible"]],
+  },
+] as const;
+
+/** Godwin's companies, shown on Work. TODO: add a one-line description and link for Brand Myspace and Ecohaven. */
 export const companies = [
-  { name: "Mascot Arthouse", since: "Since 2004", role: "Founder & Chief Creative Officer", line: "Brand strategy and design studio.", url: "" }, // TODO: add the Mascot Arthouse website
+  { name: "Mascot Arthouse", since: "Since 2004", role: "Founder & Chief Creative Officer", line: "Brand strategy and design studio.", url: "" },
+  { name: "Brand Myspace", since: "", role: "", line: "", url: "" },
+  { name: "Ecohaven", since: "", role: "", line: "", url: "" },
 ];
 
-/** Board and advisory roles for /about. Empty until added. */
+/** Verified impact numbers for /impact, each with an "as of" date. Empty until verified. */
+export const impactNumbers: { value: string; label: string; asOf: string }[] = [];
+
+/** Testimonials. Each one is shown once, on the page where it proves the most. Empty until collected. */
+export const voices: { quote: string; name: string; role: string; photo: string; page: "story" | "work" | "speaking" | "impact" }[] = [];
+
+/** Board and advisory roles for Story. Empty until added. */
 export const boards: { when: string; title: string; detail: string }[] = [];
 
-/** The book. TODO: replace every field with the real title, cover, blurb and Selar or Paystack link. */
-export const book = {
-  title: "Your book title",
-  promise: "One line on what a reader will be able to do after reading it.",
-  cover: "",
-  about:
-    "Describe the book in two or three short paragraphs: who it is for, the problem it solves, and what makes it different.\n\n*Placeholder. Replace it in `src/lib/seed.ts` (book).*",
-  buyUrl: "",
-  buyLabel: "Buy the book",
-};
+/** Deep Thoughts: one line each, with its own page and share image. */
+export const thoughts = [
+  { slug: "purpose-over-pleasure", text: "Purpose over pleasure." },
+  { slug: "document-it", text: "You can use your story. Document it." },
+  { slug: "no-neutral", text: "Your brand is either building trust or leaking it. There is no neutral." },
+  { slug: "ideas-ship", text: "Ideas only count when they ship." },
+  { slug: "do-disrupt", text: "Do. Disrupt. Dominate. Win!" },
+];
+
+export type Product = { slug: string; kind: "Free" | "Books" | "Courses" | "Tools" | "Merch"; title: string; promise: string; cover: string; about: string; buyUrl: string; buyLabel: string; price: string };
+/** Shop. Chips with no products stay hidden. Free items unlock with an email. */
+export const products: Product[] = [
+  {
+    slug: "brand-bible",
+    kind: "Books",
+    title: "The Brand Bible", // TODO: confirm the title, cover, blurb, price and buy link
+    promise: "The playbook for building a brand people trust.",
+    cover: "",
+    about:
+      "Describe the book in two or three short paragraphs: who it is for, the problem it solves, and what makes it different.\n\n*Placeholder. Replace it in `src/lib/seed.ts` (products).*",
+    buyUrl: "",
+    buyLabel: "Buy the book",
+    price: "",
+  },
+];
+/** Kept for older imports. */
+export const book = products[0];
 
 /** Draft legal copy for /legal. Review before launch, including what Nigeria's Data Protection Act requires. */
 export const legal = {
   privacy:
-    "This site collects only what you send through its forms: your name, email address, organisation and message when you get in touch, and your email address when you subscribe or ask for the book's first chapter. It is used to reply to you and to send what you asked for, and is never sold.\n\nMessages are stored in the site's database and may be forwarded by email. To have your details corrected or deleted, email the address on the Contact page.\n\n*Draft. Review before launch, including what Nigeria's Data Protection Act requires.*",
+    "This site collects only what you send through its forms: your name, email address, organisation and message when you get in touch or apply for mentorship, and your email address when you subscribe or unlock a free download. It is used to reply to you and to send what you asked for, and is never sold.\n\nMessages are stored in the site's database and may be forwarded by email. You can ask for your details to be corrected or deleted at any time by emailing the address on the Let's talk page. We handle personal data in line with Nigeria's Data Protection Act 2023 and, for visitors in Europe, the GDPR.\n\nIf the site later adds a heart counter or an AI assistant, this page will say what they record before they go live.\n\n*Draft. Have it reviewed before launch.*",
   terms:
     "Everything on this site, including essays, photographs and the Godwin Akpan identity, belongs to Barr. Godwin Akpan unless stated otherwise. You may share links and short quotes with credit. Ask before reusing anything else.\n\n*Draft. Review before launch.*",
 };
@@ -183,7 +228,7 @@ export const posts: Post[] = [
     slug: "you-can-use-your-story",
     title: "You can use your story. Document it.",
     excerpt: "Your brand is not hiding in a future success. It is in what you are living through right now.",
-    category: "Brand Architecture",
+    category: "Disruptive Branding",
     tags: ["Personal branding"],
     cover: "/media/seated-floor.webp",
     source: "native",
@@ -211,7 +256,7 @@ Start today. One honest post, one useful takeaway.`,
     slug: "brands-are-built-in-the-gaps",
     title: "Brands are built in the gaps.",
     excerpt: "Trust is not won at the launch. It is won between the big moments, in the places nobody designs for.",
-    category: "Disruptive Strategy",
+    category: "Disruptive Branding",
     tags: ["Brand strategy"],
     cover: "/media/profile-side.webp",
     source: "native",
@@ -233,7 +278,7 @@ Your brand is either building trust or leaking it. There is no neutral.`,
     slug: "purpose-over-pleasure",
     title: "Purpose over pleasure.",
     excerpt: "The easy choice feels good today. The right one compounds.",
-    category: "Leadership",
+    category: "Insight",
     tags: ["Leadership"],
     cover: "/media/seated-chair.webp",
     source: "native",

@@ -16,7 +16,7 @@ async function guard() {
   if (!db) throw new Error("No database connected. Add DATABASE_URL in Netlify.");
   return db;
 }
-const refresh = () => ["/", "/ideas", "/impact", "/work", "/about", "/speaking", "/press", "/contact"].forEach((p) => revalidatePath(p));
+const refresh = () => ["/", "/hearticles", "/impact", "/work", "/story", "/speaking", "/press", "/contact"].forEach((p) => revalidatePath(p));
 const str = (f: FormData, k: string) => String(f.get(k) ?? "").trim();
 const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80);
 
@@ -64,7 +64,7 @@ export async function savePost(f: FormData) {
   if (id) await d.update(schema.posts).set(values).where(eq(schema.posts.id, id));
   else newId = (await d.insert(schema.posts).values(values).returning({ id: schema.posts.id }))[0].id;
   refresh();
-  revalidatePath(`/ideas/${values.slug}`);
+  revalidatePath(`/hearticles/${values.slug}`);
   redirect(`/admin/posts/${newId}?saved=1`);
 }
 
@@ -109,6 +109,12 @@ export async function saveSiteSettings(f: FormData) {
   await putSetting("site", {
     ...(await getOverrides()),
     reelUrl: str(f, "reelUrl"),
+    heroLine: str(f, "heroLine") || cur.heroLine,
+    replyTime: str(f, "replyTime") || cur.replyTime,
+    whatsapp: str(f, "whatsapp"),
+    whatsappChannel: str(f, "whatsappChannel"),
+    bookingUrl: str(f, "bookingUrl"),
+    resumeUrl: str(f, "resumeUrl"),
     email: str(f, "email") || cur.email,
     phone: str(f, "phone") || cur.phone,
     location: str(f, "location") || cur.location,

@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 /** Email-only sign-up. Saved through /api/contact, so it appears in /admin → Inquiries. */
-export default function SignupForm({ intent, cta = "Subscribe", dark = false }: { intent: "Newsletter" | "Book chapter"; cta?: string; dark?: boolean }) {
+export default function SignupForm({ intent, cta = "Subscribe", dark = false, about = "" }: { intent: "Newsletter" | "Book chapter" | "Free download"; cta?: string; dark?: boolean; about?: string }) {
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
@@ -13,7 +13,7 @@ export default function SignupForm({ intent, cta = "Subscribe", dark = false }: 
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ intent, email, name: email.split("@")[0] || "Subscriber", message: intent === "Newsletter" ? "Subscribe me to Random Deep Thoughts." : "Send me the first chapter.", company_website: f.get("company_website") }),
+      body: JSON.stringify({ intent, email, name: email.split("@")[0] || "Subscriber", message: intent === "Newsletter" ? "Subscribe me to Hearticles." : intent === "Free download" ? `Send me ${about}.` : `Send me the first chapter${about ? ` of ${about}` : ""}.`, company_website: f.get("company_website") }),
     }).catch(() => null);
     setState(res?.ok ? "sent" : "error");
   }

@@ -5,20 +5,33 @@ import Colons from "@/components/Colons";
 import Kinetic from "@/components/Kinetic";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { initiatives } from "@/lib/seed";
+import NextChapter from "@/components/NextChapter";
+import Voices from "@/components/Voices";
+import { impactNumbers, initiatives } from "@/lib/seed";
 
 export const metadata: Metadata = {
   title: "Impact",
-  description: "Purpose over pleasure: Ifiok Beyond Design, THE SHIFT and the Dorathy Akpan Foundation. Building people, not just brands.",
+  description: "Ripple: Ifiok Beyond Design, THE SHIFT, the Dorathy Akpan Foundation and RebrandNigeria. Building people, not just brands.",
   alternates: { canonical: "/impact" },
 };
 
-const accents = ["text-red", "text-flight", "text-growth"];
+const accents = ["text-red", "text-flight", "text-growth", "text-red"];
 
 export default function Impact() {
   return (
     <>
-      <PageHero eyebrow="Heart · Purpose over pleasure" words={["Build", "people.", "Not", "just", "brands."]} />
+      <PageHero eyebrow="Impact" words={["Ripple."]} line="Building people, not just brands. Purpose over pleasure." />
+      {impactNumbers.length > 0 && (
+        <section className="wrap grid grid-cols-2 gap-x-6 gap-y-14 pb-24 lg:grid-cols-4">
+          {impactNumbers.map((n) => (
+            <div key={n.label}>
+              <p className="display text-[clamp(3rem,6vw,5.5rem)] leading-none">{n.value}</p>
+              <p className="mt-3 text-ash">{n.label}</p>
+              <p className="mt-1 text-xs text-ash/70">As of {n.asOf}</p>
+            </div>
+          ))}
+        </section>
+      )}
       {initiatives.map((x, i) => (
         <section key={x.slug} id={x.slug} className={`scroll-mt-20 ${i % 2 ? "bg-sky" : "bg-obsidian text-sky"}`}>
           <div className="wrap grid items-center gap-10 py-24 sm:py-36 lg:grid-cols-12">
@@ -42,11 +55,13 @@ export default function Impact() {
           </div>
         </section>
       ))}
+      <Voices page="impact" />
       <section className="wrap flex flex-col items-start gap-8 py-28 sm:py-40">
-        <Colons label="Get involved" className="text-red" />
+        <Colons label="Back a cause" className="text-red" />
         <Kinetic as="h2" words={["Partner.", "Sponsor.", "Show", "up."]} className="display text-mega" accentLast />
-        <Link href="/contact?intent=Partnership" className="btn-dark">Start a conversation <span aria-hidden>→</span></Link>
+        <Link href="/contact?intent=Partnership" className="btn-dark">Let&apos;s talk <span aria-hidden>→</span></Link>
       </section>
+      <NextChapter from="/impact" />
     </>
   );
 }

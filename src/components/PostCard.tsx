@@ -9,7 +9,7 @@ export function fmtDate(iso: string) {
 
 export default function PostCard({ p, big = false }: { p: Post; big?: boolean }) {
   return (
-    <Link href={`/ideas/${p.slug}`} className="group block">
+    <Link href={`/hearticles/${p.slug}`} className="group block">
       <div className={`relative overflow-hidden rounded-[22px] bg-paper ${big ? "aspect-[16/10]" : "aspect-[4/3]"}`}>
         {p.cover ? (
           <Image src={p.cover} alt="" fill sizes="(min-width:1024px) 33vw, 100vw" className="object-cover transition-transform duration-1000 ease-expo group-hover:scale-105" unoptimized={p.cover.startsWith("http")} />

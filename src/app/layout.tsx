@@ -15,7 +15,7 @@ const body = Inter({ subsets: ["latin"], variable: "--f-body", display: "swap" }
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.title} · ${site.mantra}`, template: `%s · Godwin Akpan` },
+  title: { default: "Godwin Akpan | Disruptive Brand Architect", template: "%s | Godwin Akpan" },
   description: site.description,
   openGraph: { type: "website", siteName: "Godwin Akpan", images: ["/og.png"], locale: "en_NG" },
   twitter: { card: "summary_large_image", creator: "@thegodwinakpan", images: ["/og.png"] },
@@ -32,7 +32,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     "@type": "Person",
     name: "Godwin Akpan",
     honorificPrefix: "Barr.",
-    jobTitle: "Disruptive Brand Strategist",
+    jobTitle: "Disruptive Brand Architect",
     url: s.url,
     image: `${s.url}/media/portrait-official.webp`,
     worksFor: { "@type": "Organization", name: "Mascot Arthouse" },

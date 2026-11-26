@@ -2,13 +2,20 @@
 const nextConfig = {
   images: { formats: ["image/avif", "image/webp"] },
   async redirects() {
-    // v3 unified sitemap: old addresses forward permanently to their new homes.
+    // Final sitemap: every older address forwards permanently to its new home.
     const moved = [
-      { source: "/insights", destination: "/ideas", permanent: true },
-      { source: "/insights/:slug", destination: "/ideas/:slug", permanent: true },
-      { source: "/initiatives", destination: "/impact", permanent: true },
-      { source: "/speaking-media", destination: "/speaking", permanent: true },
-    ];
+      ["/about", "/story"],
+      ["/ideas", "/hearticles"],
+      ["/ideas/:slug", "/hearticles/:slug"],
+      ["/insights", "/hearticles"],
+      ["/insights/:slug", "/hearticles/:slug"],
+      ["/initiatives", "/impact"],
+      ["/speaking-media", "/speaking"],
+      ["/newsletter", "/subscribe"],
+      ["/legal", "/privacy"],
+      ["/book", "/shop/brand-bible"],
+      ["/mentorship", "/impact/ibd#apply"],
+    ].map(([source, destination]) => ({ source, destination, permanent: true }));
     // One domain forwards to the other. Set PRIMARY_HOST in Netlify (e.g. www.godwinakpan.si).
     const primary = process.env.PRIMARY_HOST;
     if (!primary) return moved;

@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { intents } from "@/lib/seed";
+import { intentPrompts, intents } from "@/lib/seed";
 
 /** Step 1: pick intent. Step 2: details. Step 3: sent. */
-export default function ContactFlow({ initialIntent, about }: { initialIntent?: string; about?: string }) {
+export default function ContactFlow({ initialIntent, about, replyTime }: { initialIntent?: string; about?: string; replyTime: string }) {
   const valid = intents.find((i) => i === initialIntent);
   const [intent, setIntent] = useState<string | undefined>(valid);
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -26,11 +26,12 @@ export default function ContactFlow({ initialIntent, about }: { initialIntent?: 
         {state === "sent" ? (
           <motion.div key="done" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <p className="display text-h2">Received.</p>
-            <p className="mt-4 text-xl text-ash">Thank you. Expect a reply within two working days.</p>
+            <p className="mt-4 text-xl text-ash">Thank you. Expect a reply within {replyTime}.</p>
           </motion.div>
         ) : (
           <motion.div key="form" exit={{ opacity: 0 }}>
             <p className="eyebrow mb-5 text-ash">01 · What brings you here?</p>
+            <p className="-mt-2 mb-5 text-sm text-ash">I reply within {replyTime}.</p>
             <div className="flex flex-wrap gap-2">
               {intents.map((i) => (
                 <button key={i} type="button" onClick={() => setIntent(i)} aria-pressed={intent === i} className={`btn border ${intent === i ? "border-red bg-red text-sky" : "border-eagle/15 hover:border-eagle"}`}>{i}</button>
@@ -43,7 +44,7 @@ export default function ContactFlow({ initialIntent, about }: { initialIntent?: 
                   <input name="name" required placeholder="Your name" className={field} autoComplete="name" />
                   <input name="email" type="email" required placeholder="Email" className={field} autoComplete="email" />
                   <input name="organisation" placeholder="Organisation (optional)" className={field} autoComplete="organization" />
-                  <textarea name="message" required rows={4} defaultValue={about ? `About ${about}: ` : ""} placeholder={intent === "Speaking Invitation" ? "Event, date, audience" : "What are you working on?"} className={`${field} resize-none`} />
+                  <textarea name="message" required rows={4} defaultValue={about ? `About ${about}: ` : ""} placeholder={intentPrompts[intent] || "What are you working on?"} className={`${field} resize-none`} />
                   <input name="company_website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
                   <button disabled={state === "sending"} className="btn-dark mt-10">{state === "sending" ? "Sending…" : "Send"} <span aria-hidden>→</span></button>
                   {state === "error" && <p className="mt-4 text-sm text-red" role="alert">{err}</p>}

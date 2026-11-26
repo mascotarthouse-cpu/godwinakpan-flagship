@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import PostCard from "./PostCard";
-import { CATEGORIES, type Post } from "@/lib/seed";
+import { SERIES, type Post } from "@/lib/seed";
 
 export default function InsightsList({ posts }: { posts: Post[] }) {
   const [cat, setCat] = useState<string>("All");
@@ -9,13 +9,14 @@ export default function InsightsList({ posts }: { posts: Post[] }) {
   const list = posts.filter((p) => (cat === "All" || p.category === cat) && (src === "all" || p.source === src));
   const [first, ...rest] = list;
   const hasMedium = posts.some((p) => p.source === "medium");
-  // Topic tabs only once the archive is deep enough to fill them; until then they make it look empty.
-  const showTopics = posts.length > 30;
+  // Series chips only for series that hold something, and only once there are two or more.
+  const present = SERIES.filter((x) => posts.some((p) => p.category === x));
+  const showTopics = present.length > 1;
   return (
     <section className="wrap pb-28 sm:pb-40">
       <div className={`mb-14 flex flex-col gap-4 border-b border-eagle/10 pb-6 lg:flex-row lg:items-center lg:justify-between ${!showTopics && !hasMedium ? "hidden" : ""}`}>
         <div className="no-scrollbar flex gap-2 overflow-x-auto" role="tablist" aria-label="Category">
-          {showTopics && ["All", ...CATEGORIES].map((c) => (
+          {showTopics && ["All", ...present].map((c) => (
             <button key={c} role="tab" aria-selected={cat === c} onClick={() => setCat(c)} className={`btn shrink-0 border px-5 py-2.5 ${cat === c ? "border-eagle bg-eagle text-sky" : "border-transparent hover:border-eagle/20"}`}>{c}</button>
           ))}
         </div>
